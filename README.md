@@ -13,7 +13,7 @@ CONT and STOP signals to kill command over firefox pid process
 Full and incremental backup script.
 
 
-#### Syntax:
+##### Syntax:
 
    ```
    $ backup NameOfBackup RootStorage DirToBackup [SecondaryStorage]"
