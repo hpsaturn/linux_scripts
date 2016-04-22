@@ -1,2 +1,7 @@
 #!/bin/bash
+###################################
+# Copyrigh 2004 @hpsaturn         #
+# Licensed GPLv3                  # 
+###################################
+
 kill -s CONT `pidof firefox`
