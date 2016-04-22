@@ -1,0 +1,144 @@
+#!/bin/bash
+# full and incremental backup script
+# Modified by Antonio Vanegas @hpsaturn
+
+# Created 07 February 2000
+# Based on a script by Daniel O'Callaghan <danny@freebsd.org>
+# and modified by Gerhard Mourani <gmourani@videotron.ca>
+
+# REVISIONS
+# 20121219 Autoconfigure via console paramaters
+
+COMPUTER=$1                             # name of this computer
+ROOT=$2                                 # target directory
+DIRECTORIES=$3                          # directoris to backup
+SECONDARY=$4                            # secondary store backup
+
+BACKUPDIR=$ROOT/$COMPUTER               # where to store the backups
+TIMEDIR=$ROOT/$COMPUTER/last-full       # where to store time of full backup
+TAR=/bin/tar                            # name and locaction of tar
+IGNORE=$ROOT/$COMPUTER/ignorefiles      # Archivos a ignorar
+FULLBKP_DAY=29
+
+PATH=/usr/local/bin:/usr/bin:/bin
+DOW=`date +%a`              		# Day of the week e.g. Mon
+DOM=`date +%d`              		# Date of the Month e.g. 27
+DM=`date +%d%b`             	    # Date and Month e.g. 27Sep
+DATE=`date +%Y%m%d`                 # Date format AAAAMMDD
+
+# On the 1st of the month a permanet full backup is made
+# Every Sunday a full backup is made - overwriting last Sundays backup
+# The rest of the time an incremental backup is made. Each incremental
+# backup overwrites last weeks incremental backup of the same name.
+#
+# if NEWER = "", then tar backs up all files in the directories
+# otherwise it backs up files newer than the NEWER date. NEWER
+# gets it date from the file written every Sunday.
+
+function showHelp(){
+    echo ""
+    echo "Usage: backup NameOfBackup RootStorage DirToBackup [SecondaryStorage]"
+    echo ""
+    echo "Example dual storage: backup home /bkp /home/user /mnt/samba/bkp" 
+    echo "Example simple:       backup home /bkp /home/user" 
+    echo ""
+    echo "Example: Install in crontab:"
+    echo "00  19  *   *   *   /home/user/bin/backup home /bkp /home/user /mnt/samba/bkp"
+    echo ""
+}
+
+if [ "$COMPUTER" == "" ]; then
+    showHelp   
+    exit 3
+fi
+
+if [[ ( "$ROOT" == "" ) || ( "$DIRECTORIES" == "" ) ]]; then
+    echo ""
+    echo "ERROR: Root backup directory or target directory not found!"
+    showHelp
+    exit 3
+fi
+
+if [ ! -d "$ROOT/$COMPUTER" ]; then
+    echo -n "CREATING ROOT BACKUP: $ROOT"
+    mkdir -p $ROOT/$COMPUTER
+    INITBKP=1
+    echo " [OK]"
+fi
+
+if [ ! -d "$TIMEDIR" ]; then
+    echo -n "CONFIGURE TIME DIRECTORY: $TIMEDIR"
+    mkdir -p $TIMEDIR
+    NOW=`date +%d-%b`
+    echo $NOW > $TIMEDIR/$COMPUTER-full-date
+    echo " [OK]"
+fi
+
+if [ ! -f "$IGNORE" ]; then
+    echo -n "CREATING IGNORE CONFIG FILE: $IGNORE"
+    touch $IGNORE
+    echo " [OK]"
+fi
+
+if [ "$SECONDARY" != "" ]; then
+
+    if [ ! -d "$SECONDARY/$COMPUTER" ]; then
+        echo -n "CREATING SECONDARY BACKUP: $SECONDARY"
+        mkdir -p $SECONDARY/$COMPUTER
+        echo " [OK]"
+        echo ""
+    fi
+
+fi
+
+# Monthly full backup
+if [[( $DOM = "$FULLBKP_DAY" ) || ( $INITBKP != "" )]]; then
+        NEWER=""
+        FILE=$BACKUPDIR/bkp_$COMPUTER_$DATE.tar.gz
+        if [ -f $FILE ]; then
+          rm $FILE
+        fi
+        
+        $TAR $NEWER -zcf $FILE --exclude-from=$IGNORE $DIRECTORIES
+        
+        if [ -d "$SECONDARY/$COMPUTER" ]; then
+            cp -f $FILE $SECONDARY/$COMPUTER/
+        fi
+fi
+
+# Weekly full backup
+if [ $DOW = "Fri" ]; then
+        NEWER=""
+        NOW=`date +%d-%b`
+
+        # Update full backup date (/tmp for samba)
+        echo $NOW > /tmp/$COMPUTER-full-date
+        mv /tmp/$COMPUTER-full-date $TIMEDIR/
+        # remove file if exist 
+        FILE=$BACKUPDIR/$COMPUTER-$DOW.tar.gz
+        if [ -f $FILE ]; then
+          rm $FILE
+        fi
+        
+        $TAR $NEWER -zcf $FILE --exclude-from=$IGNORE $DIRECTORIES
+        
+        if [ -d "$SECONDARY/$COMPUTER" ]; then
+            cp -f $FILE $SECONDARY/$COMPUTER/
+        fi
+
+# Make incremental backup - overwrite last weeks
+else
+        # Get date of last full backup
+        NEWER="--newer `cat $TIMEDIR/$COMPUTER-full-date`"
+        # remove file if exist 
+        FILE=$BACKUPDIR/$COMPUTER-$DOW.tar.gz
+        if [ -f $FILE ]; then
+          rm $FILE
+        fi
+        
+        $TAR $NEWER -zcf $FILE --exclude-from=$IGNORE $DIRECTORIES
+        
+        if [ -d "$SECONDARY/$COMPUTER" ]; then
+            cp -f $FILE $SECONDARY/$COMPUTER/
+        fi
+fi
