@@ -1,0 +1,35 @@
+#! /bin/bash
+
+freecache () {
+    echo "======== drop caches ========="
+    sync
+    sudo echo 3 > /proc/sys/vm/drop_caches
+    free
+}
+
+freeswap () {
+    echo "======== free swap ==========="
+    swapoff -a
+    swapon -a
+    free
+}
+
+
+echo "====== current memory ========"
+free  
+
+if [ "$1" = "" ]; then
+    freecache
+    freeswap
+else
+    case "$1" in
+        swap)
+            freeswap
+            ;;
+        cache)
+            freecache
+            ;;
+    esac
+fi
+
+echo "============ end ============="
