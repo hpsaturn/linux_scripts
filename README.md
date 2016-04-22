@@ -13,28 +13,27 @@ CONT and STOP signals to kill command over firefox pid process
 Full and incremental backup script.
 
 
-### Syntax:
+#### Syntax:
 
-    ``` 
-    $ backup NameOfBackup RootStorage DirToBackup [SecondaryStorage]"
-    ```
+   ```
+   $ backup NameOfBackup RootStorage DirToBackup [SecondaryStorage]"
+   ```
 
-### Basic Usage:
+##### Basic Usage:
 
-    ``` 
-    $ backup home /bkp /home/user
-    ```
+   ```
+   $ backup home /bkp /home/user
+   ```
 
-### Example dual storage:
+##### Example dual storage:
 
-    ``` 
-    $ backup home /bkp /home/user /mnt/samba/bkp" 
+   ```
+   $ backup home /bkp /home/user /mnt/samba/bkp" 
+   ```
 
-    ``` 
+##### Crontab config:
 
-### Crontab config:
-
-    ``` 
-    00  19  *   *   *   /home/user/bin/backup home /bkp /home/user /mnt/samba/bkp
-    ``` 
+   ```
+   00  19  *   *   *   /home/user/bin/backup home /bkp /home/user /mnt/samba/bkp
+   ```
 
