@@ -1,6 +1,6 @@
 #!/bin/bash
 # full and incremental backup script
-# Modified by Antonio Vanegas @hpsaturn
+# Copyright @hpsaturn
 
 # Created 07 February 2000
 # Based on a script by Daniel O'Callaghan <danny@freebsd.org>
@@ -8,6 +8,7 @@
 
 # REVISIONS
 # 20121219 Autoconfigure via console paramaters
+# 20130219 Add help
 
 COMPUTER=$1                             # name of this computer
 ROOT=$2                                 # target directory

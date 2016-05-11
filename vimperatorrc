@@ -1,0 +1,5 @@
+"3.13.1 (created: 2016/05/04 01:34:00)
+
+highlight CmdLine color: cyan
+set gui=none,tabs
+

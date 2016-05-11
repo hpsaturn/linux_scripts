@@ -24,14 +24,14 @@ else
 fi
 ### Done with check database...
 
-/system/sbin/lsusb | grep -q '0cf3:9271'
+lsusb | grep -q '0cf3:9271'
 if [ $? -eq 0 ]
 then
   echo "Found TP-Link TL-WN722N High Gain USB Wifi"
 fi
 
 
-/system/sbin/lsusb | grep -q 7392
+lsusb | grep -q 7392
 if [ $? -eq 0 ]
 then
 echo "Running Edimax"
@@ -44,7 +44,7 @@ modprobe 8192cu
 fi
 
 # only if running kernel with modules
-/system/sbin/lsusb | grep -q 148f
+lsusb | grep -q 148f
 if [ $? -eq 0 ]
 then
 echo "Running Panda Modules"
@@ -141,6 +141,10 @@ fi
 stop dhcpcd
 start wpa_supplicant
 start dhcpcd_wlan0
+
+#route add default gw 192.168.43.1
+#setprop service.adb.tcp.port 5555
+
 
 ##############
 exit 0
