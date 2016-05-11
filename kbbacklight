@@ -1,0 +1,60 @@
+#!/bin/bash
+
+################################
+# keyboard brightness decrease
+################################
+
+decrease () {
+
+    brightness_val=$(cat /sys/class/leds/asus::kbd_backlight/brightness)
+    if [ 0 -lt $brightness_val ]
+    then 
+        echo "down"
+        brightness_val=$(($brightness_val - 1))
+        echo $brightness_val | tee /sys/class/leds/asus::kbd_backlight/brightness
+    fi
+}
+
+################################
+# keyboard brightness increase
+################################
+
+increase () {
+    
+    brightness_val=$(cat /sys/class/leds/asus::kbd_backlight/brightness)
+    if [ 3 -gt $brightness_val ]
+    then
+        echo "up"
+        brightness_val=$(($brightness_val + 1))
+        echo $brightness_val | tee /sys/class/leds/asus::kbd_backlight/brightness
+    fi
+}
+
+case "$1" in
+
+    up)
+        increase
+        ;;
+    down)
+        decrease
+        ;;
+    off)
+        echo 0 > /sys/class/leds/asus::kbd_backlight/brightness
+        ;;
+    on)
+        echo 1 > /sys/class/leds/asus::kbd_backlight/brightness
+        ;;
+    mid)
+        echo 2 >  /sys/class/leds/asus::kbd_backlight/brightness
+        ;;
+    max)
+        echo 3 > /sys/class/leds/asus::kbd_backlight/brightness
+        ;;
+    help)
+        echo "commands: on, off, max, mid"
+        ;;
+    *)
+        echo 1 > /sys/class/leds/asus::kbd_backlight/brightness
+        ;;
+
+esac
