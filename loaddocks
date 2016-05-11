@@ -1,0 +1,41 @@
+#! /bin/bash
+
+excute_process () {
+  echo -n "check: $1.." 
+  pid=`pidof $1`
+  if [ "$pid" == "" ] ; then
+    echo "fail"
+    echo "run $1"
+    $1 $2 &
+  else
+    echo "ok"
+  fi
+  sleep 1
+}
+
+fexecute () {
+  $1 $2 &
+  sleep 1
+}
+
+excute_process gkrellm "-wm -g +1299+0" 
+excute_process wmmon
+excute_process wmtop
+excute_process wmnd "-i wlan0"
+fexecute wmmon "-s"
+excute_process wmwifi "-i 30 -s -bl -tn"
+excute_process wmmemload
+#excute_process wmtimer "-e sound_alert2 -c -t 00:00:00"
+excute_process wmweather "--lcd -m -g  -s SKBO"
+#excute_process wmnut "-B 100% -L 80 -b 20 -U blazer@localhost"
+#excute_process wmpinboard
+#excute_process gdeskcal "-x 1001 -y 877"
+excute_process wmcliphist "-s 0"
+#excute_process xscreensaver
+excute_process /home/avp/.dropbox-dist/dropboxd
+excute_process xfce4-power-manager
+excute_process megasync
+
+
+#xbindkeys &
+#dccm & 
