@@ -9,8 +9,14 @@ freecache () {
 }
 
 freeswap () {
-    msg="freeswap"
+    msg="freeswap "
     swapoff -a &
+    pidswap=$!
+}
+
+enableswap () {
+    msg="freeswap "
+    swapon -a &
     pidswap=$!
 }
 
@@ -36,11 +42,18 @@ getchar(){
     statuschar="${denomination[$((RANDOM%num_denominations))]}"
 }
 
+######################################
+############# M A I N ################
+######################################
+
 freecache
 whilep $pidcache
 freeswap
 whilep $pidswap
 sync
+enableswap
+whilep $pidswap
+
 
 
 
