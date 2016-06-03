@@ -1,35 +1,48 @@
 #! /bin/bash
+set -o errexit
 
 freecache () {
-    echo "======== drop caches ========="
+    msg="freecache"
     sync
-    sudo echo 3 > /proc/sys/vm/drop_caches
-    free
+    sudo echo 3 > /proc/sys/vm/drop_caches &
+    pidcache=$!
 }
 
 freeswap () {
-    echo "======== free swap ==========="
-    swapoff -a
-    swapon -a
-    free
+    msg="freeswap"
+    swapoff -a &
+    pidswap=$!
 }
 
+whilep () {
+    # If this script is killed, kill the `cp'.
+    trap "kill $1 2> /dev/null" EXIT
 
-echo "====== current memory ========"
-free  
+    while kill -0 $1 2> /dev/null; do
+        getchar
+        printf "%s %s\r" "$msg" "$statuschar"
+        sleep 0.1
+    done
+}
 
-if [ "$1" = "" ]; then
-    freecache
-    freeswap
-else
-    case "$1" in
-        swap)
-            freeswap
-            ;;
-        cache)
-            freecache
-            ;;
-    esac
-fi
+StatusChar="/
+|
+\
+-"
 
-echo "============ end ============="
+getchar(){
+    denomination=($StatusChar)
+    num_denominations=${#denomination[*]}
+    statuschar="${denomination[$((RANDOM%num_denominations))]}"
+}
+
+freecache
+whilep $pidcache
+freeswap
+whilep $pidswap
+sync
+
+
+
+
+
