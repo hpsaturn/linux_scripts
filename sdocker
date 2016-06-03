@@ -1,0 +1,42 @@
+sdocker (){
+    DOCKER_SSH_AUTH=$HOME/docker_ssh_auth
+    AOSP_IMAGE=${AOSP_IMAGE:-$HOME/Project}
+
+    if [ $# -eq 0 ]; then
+        echo "Usage: $0 DOCKER_IMAGE_NAME"
+        return
+    fi
+
+    if [ -n "$SSH_AUTH_SOCK" ]; then
+        $(ls -l $HOME/docker_ssh_auth 2> /dev/null | grep $SSH_AUTH_SOCK > /dev/null)
+        if [ $? ];
+        then
+            unlink $DOCKER_SSH_AUTH > /dev/null
+            ln -s $SSH_AUTH_SOCK $DOCKER_SSH_AUTH
+        fi
+        SSH_AUTH_ARGS="-v $DOCKER_SSH_AUTH:/tmp/ssh_auth -e SSH_AUTH_SOCK=/tmp/ssh_auth"
+    fi
+    AOSP_ARGS=${AOSP_ARGS:--it}
+    img=$(docker ps | grep $1 | awk '{print $1}');
+    if [ -z $img ]; then
+        img=$(docker ps -a | grep $1 | awk '{print $1}') | head -1;
+        if [ -z $img ]; then
+            echo "Running a new container"
+            docker run ${AOSP_ARGS} ${SSH_AUTH_ARGS} -v ${AOSP_IMAGE}:/aosp/Project $1
+        else
+            echo "Starting $img"
+            docker start -i -a $img
+        fi
+    else
+        echo "Attach to $img"
+        docker exec -it $img /bin/bash
+    fi
+}
+
+_sdocker () {
+    local cur
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    COMPREPLY=( $(compgen -W "$(docker images | tail -n +2 | grep -v "<none>" | awk '{print $1}')" -- ${cur} ) )
+}
+
+complete -o default -F _sdocker sdocker
