@@ -27,8 +27,11 @@ whilep () {
     while kill -0 $1 2> /dev/null; do
         getchar
         printf "%s %s\r" "$msg" "$statuschar"
-        sleep 0.1
+        sleep 0.05
     done
+    printf "                             \r"
+
+
 }
 
 StatusChar="/
