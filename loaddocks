@@ -3,9 +3,14 @@
 excute_process () {
   echo -n "check: $1.." 
   pid=`pidof $1`
+  prm=`ps aux | grep -e "$1 $2"`
   if [ "$pid" == "" ] ; then
     echo "fail"
     echo "run $1"
+    $1 $2 &
+  elif [ "$prm" == "" ] ; then 
+    echo "not same"
+    echo "run $1 $2"
     $1 $2 &
   else
     echo "ok"
@@ -13,16 +18,11 @@ excute_process () {
   sleep 1
 }
 
-fexecute () {
-  $1 $2 &
-  sleep 1
-}
-
 excute_process gkrellm "-wm -g +1299+0" 
 excute_process wmmon
 excute_process wmtop
 excute_process wmnd "-i wlan0"
-fexecute wmmon "-s"
+excute_process wmmon "-s"
 excute_process wmwifi "-i 30 -s -bl -tn"
 excute_process wmmemload
 #excute_process wmtimer "-e sound_alert2 -c -t 00:00:00"
