@@ -1,0 +1,24 @@
+#!/bin/bash
+
+execute () {
+  echo -n "check: $1.." 
+  pid=`pidof $1`
+  if [ "$pid" == "" ] ; then
+    echo "fail"
+    echo "run $1"
+    $1 $2 &
+  else
+    echo "ok"
+  fi
+  sleep 1
+}
+
+fexecute () {
+  $1 $2 &
+  sleep 1
+}
+#execute wmmon 
+execute wmnd 
+fexecute wmmon "-s -b"
+execute wmmemload 
+
