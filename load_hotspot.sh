@@ -7,33 +7,53 @@
 # REV000: Creación de funciones iniciales. Mode Ad-Hoc soportado
 ###################################################################
 
-DEVICE=wlan1
+DEVICE=wlan0
+MODULE=iwldvm
 
 start_spot () {
-    echo "reload module:"
+    remove_module
+    sleep 1
+    install_module
+    sleep 2
     ifconfig $DEVICE down
     sleep 1
-    echo -n "set mode ad-hoc.."
-    iwconfig $DEVICE mode ad-hoc
-    iwconfig $DEVICE essid ZenBook
+    echo -n "set static gateway.."
     ifconfig $DEVICE 192.168.3.1 netmask 255.255.255.0
     ifconfig $DEVICE up
-    echo "ok"
-    echo "start DHCP:"
-    /etc/init.d/isc-dhcp-server start
+    echo "ok" 
+    echo "start hostapd:"
+    service hostapd start
     echo "start NAT:"
     #/etc/init.d/load_iptables restart
+    sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
     iptables -t nat -A POSTROUTING -s 192.168.3.0/24 -d 0.0.0.0/0 -j MASQUERADE
+    echo "start dnsmask:"
+    service dnsmasq restart
 }
 
 stop_spot () {
-    echo "stop DHCP:"
-    /etc/init.d/isc-dhcp-server stop
-    echo -n "device stop.."
+    stop_services
+}
+
+stop_services () {
+    echo -n "stop services.."
     ifconfig $DEVICE down
-    sleep 1
+    service hostapd stop
+    service dnsmasq stop
     echo "done."
-    sleep 1
+    remove_module
+}
+
+remove_module () {
+    echo -n "remove modules.."
+    modprobe -rv $MODULE
+    echo "done."
+}
+
+install_module () {
+    echo -n "install modules.."
+    modprobe $MODULE
+    echo "done."
 }
 
 case "$1" in
