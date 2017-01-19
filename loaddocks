@@ -34,7 +34,7 @@ excute_process wmcliphist "-s 0"
 #excute_process xscreensaver
 excute_process /home/avp/.dropbox-dist/dropboxd
 excute_process xfce4-power-manager
-excute_process megasync
+#excute_process megasync
 
 
 #xbindkeys &
