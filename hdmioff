@@ -1,0 +1,13 @@
+#!/bin/bash
+
+xrandr --output eDP1 --same-as HDMI1 --auto
+sleep 2
+xrandr --output HDMI1 --off
+sleep 1
+killall gkrellm
+sleep 1
+kill -usr1 `pgrep wmaker | tail -1` # restart wmaker
+
+
+
+
