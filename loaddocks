@@ -21,7 +21,7 @@ excute_process () {
 excute_process gkrellm "-wm -g +1299+0" 
 excute_process wmmon
 excute_process wmtop
-excute_process wmnd "-i wlan0"
+excute_process wmnd "-i eth1"
 excute_process wmmon "-s"
 excute_process wmwifi "-i 30 -s -bl -tn"
 excute_process wmmemload
