@@ -3,3 +3,14 @@
 highlight CmdLine color: cyan
 set gui=none,tabs
 js services.services.autoCompleteSearch.class_="@mozilla.org/autocomplete/search;1?name=unifiedcomplete"
+
+" Example keybinding: xt
+nmap xt :extraTab<SPACE>
+    
+command! extraTab -nargs=1 -description "Open an extra tab" :js extraTab("<args>");
+
+:js <<EOF
+function extraTab(args) {
+    liberator.open(args, liberator.NEW_TAB)
+}
+EOF
