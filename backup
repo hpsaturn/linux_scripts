@@ -19,7 +19,7 @@ BACKUPDIR=$ROOT/$COMPUTER               # where to store the backups
 TIMEDIR=$ROOT/$COMPUTER/last-full       # where to store time of full backup
 TAR=/bin/tar                            # name and locaction of tar
 IGNORE=$ROOT/$COMPUTER/ignorefiles      # Archivos a ignorar
-FULLBKP_DAY=29
+FULLBKP_DAY=22
 
 PATH=/usr/local/bin:/usr/bin:/bin
 DOW=`date +%a`              		# Day of the week e.g. Mon
@@ -100,6 +100,7 @@ if [[( $DOM = "$FULLBKP_DAY" ) || ( $INITBKP != "" )]]; then
           rm $FILE
         fi
         
+        echo "Monthly full backup ==> $FILE"
         $TAR $NEWER -zcf $FILE --exclude-from=$IGNORE $DIRECTORIES
         
         if [ -d "$SECONDARY/$COMPUTER" ]; then
@@ -108,7 +109,7 @@ if [[( $DOM = "$FULLBKP_DAY" ) || ( $INITBKP != "" )]]; then
 fi
 
 # Weekly full backup
-if [ $DOW = "Fri" ]; then
+if [ $DOW = "Wed" ]; then
         NEWER=""
         NOW=`date +%d-%b`
 
@@ -121,6 +122,7 @@ if [ $DOW = "Fri" ]; then
           rm $FILE
         fi
         
+        echo "Weekly full backup ==> $FILE"
         $TAR $NEWER -zcf $FILE --exclude-from=$IGNORE $DIRECTORIES
         
         if [ -d "$SECONDARY/$COMPUTER" ]; then
@@ -137,6 +139,7 @@ else
           rm $FILE
         fi
         
+        echo "incremental backup ==> $FILE"
         $TAR $NEWER -zcf $FILE --exclude-from=$IGNORE $DIRECTORIES
         
         if [ -d "$SECONDARY/$COMPUTER" ]; then
