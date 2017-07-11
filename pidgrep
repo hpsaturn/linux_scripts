@@ -1,2 +1,2 @@
 #!/bin/bash
-ps aux | grep ssh | grep -e "$1" | cut -c10-15
+ps aux | grep -e "$1" | cut -c10-15
