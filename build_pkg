@@ -1,0 +1,19 @@
+#!/bin/bash
+###################################################################
+# hpsaturn@gmail.com
+###################################################################
+
+version=$1
+name=$2
+
+if [ "$version" = "" ]; then
+    version=`git log --pretty=format:'%h' -n 1`
+fi
+
+if [ "$name" = "" ]; then
+    topdir=`git rev-parse --show-toplevel`
+    name=`basename $topdir`
+fi
+
+time checkinstall -D --install=no --pkgname=$name --maintainer=hpsaturn@gmail.com --pkgversion=$version --pkgrelease="master"
+
