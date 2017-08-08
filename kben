@@ -1,0 +1,3 @@
+#!/bin/bash
+setxkbmap -layout en_US -variant intl
+
