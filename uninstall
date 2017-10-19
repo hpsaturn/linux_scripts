@@ -1,0 +1,29 @@
+#!/bin/bash
+####################################################################
+# ADB Uninstall Util (GPL license, author: @hpsaturn)
+#
+# revision:
+# -----------------------------------------------------------------
+# 20171005 get package name (without execution)
+# 20171019 filter for multiple apks and execution ready
+####################################################################
+
+pkg=`adb shell 'pm list packages -f' | sed -e 's/.*=//' | grep $1`
+cnt=`echo "$pkg" | wc -l`
+adb=`echo "$pkg" | sed -e 's/^/adb uninstall /'`
+cmd=`echo "$adb" | dos2unix`
+
+if [ "$pkg" = "" ]; then
+    echo "package not found!"
+    exit 1
+elif (( $cnt > 1 )); then
+    echo ""
+    echo "multiple packages found:"
+    echo ""
+    echo "$cmd"
+    echo ""
+else
+    echo "uninstalling: $pkg"
+    bash -c "$cmd"
+fi
+
