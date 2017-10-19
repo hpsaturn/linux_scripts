@@ -2,7 +2,9 @@
 ####################################################################
 # ADB Uninstall Util (GPL license, author: @hpsaturn)
 #
-# revision:
+# Dependencies: android-tools-adb, dos2unix
+#
+# Revision:
 # -----------------------------------------------------------------
 # 20171005 get package name (without execution)
 # 20171019 filter for multiple apks and execution ready
@@ -20,7 +22,7 @@ elif (( $cnt > 1 )); then
     echo ""
     echo "multiple packages found:"
     echo ""
-    echo "$cmd"
+    echo "$pkg"
     echo ""
 else
     echo "uninstalling: $pkg"
