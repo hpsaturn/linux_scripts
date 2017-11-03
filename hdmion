@@ -1,6 +1,6 @@
 #!/bin/bash
 
-xrandr --output HDMI1 --same-as eDP1 --auto
+xrandr --output HDMI1 --same-as eDP1 --primary --auto
 sleep 2
 xrandr --output eDP1 --off
 sleep 2
