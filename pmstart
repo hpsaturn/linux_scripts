@@ -1,0 +1,45 @@
+#!/bin/bash
+####################################################################
+# ADB start apk (GPL license, author: @hpsaturn)
+#
+# Dependencies: android-tools-adb, dos2unix
+#
+# Revision:
+# -----------------------------------------------------------------
+# 20171107 first version (extended from uninstall command)
+####################################################################
+
+if [ "$1" = "" ]; then
+  echo "usage: pmstart pattern [activity]"
+  exit 1
+fi
+
+pkg=`adb shell 'pm list packages -f' | sed -e 's/.*=//' | grep $1`
+cnt=`echo "$pkg" | wc -l`
+adb=`echo "$pkg" | sed -e 's/^/adb shell am start -n /'`
+cmd=`echo "$adb" | dos2unix`
+pkg=`echo "$pkg" | dos2unix`
+
+if [ "$pkg" = "" ]; then
+    echo "package not found!"
+    exit 1
+elif (( $cnt > 1 )); then
+    echo ""
+    echo "multiple packages found:"
+    echo ""
+    echo "$pkg"
+    echo ""
+    exit 1
+else
+    if [ "$2" = "" ]; then
+      echo "warnning! default activity to .MainActivity (missing activity parameter)"
+      cmd="$cmd/$pkg.MainActivity -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"
+    else
+      cmd="$cmd/$pkg.$2 -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"
+    fi
+    echo "starting: $pkg"
+    echo "command: $cmd"
+    bash -c "$cmd"
+    exit 0
+fi
+
