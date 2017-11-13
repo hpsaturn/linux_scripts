@@ -1,0 +1,37 @@
+#!/bin/bash
+####################################################################
+# ADB list apks from pattern (GPL license, author: @hpsaturn)
+#
+# Dependencies: android-tools-adb, dos2unix
+#
+# Revision:
+# -----------------------------------------------------------------
+# 20171113 first version (extended from uninstall command)
+####################################################################
+
+if [ "$1" = "" ]; then
+  echo "usage: pmlist pattern"
+  exit 1
+fi
+
+pkg=`adb shell 'pm list packages -f' | sed -e 's/.*=//' | grep $1`
+cnt=`echo "$pkg" | wc -l`
+pkg=`echo "$pkg" | dos2unix`
+
+if [ "$pkg" = "" ]; then
+    echo "package not found!"
+    exit 1
+elif (( $cnt > 1 )); then
+    echo ""
+    echo "multiple packages found:"
+    echo ""
+    echo "$pkg"
+    echo ""
+    exit 1
+else
+    echo ""
+    echo "$pkg"
+    echo ""
+    exit 0
+fi
+
