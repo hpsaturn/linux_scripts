@@ -1,0 +1,40 @@
+#!/bin/bash
+####################################################################
+# ADB pull apk file from pattern (GPL license, author: @hpsaturn)
+#
+# Dependencies: android-tools-adb, dos2unix
+#
+# Revision:
+# -----------------------------------------------------------------
+# 20171113 first version (extended from uninstall command)
+####################################################################
+
+if [ "$1" = "" ]; then
+  echo "usage: pmpull pattern"
+  exit 1
+fi
+
+pkg=`adb shell 'pm list packages -f' | sed -e 's/.*=//' | grep $1`
+cnt=`echo "$pkg" | wc -l`
+adb=`echo "$pkg" | sed -e 's/^/adb shell dumpsys package /'`
+cmd=`echo "$adb" | dos2unix`
+pkg=`echo "$pkg" | dos2unix`
+
+if [ "$pkg" = "" ]; then
+    echo "package not found!"
+    exit 1
+elif (( $cnt > 1 )); then
+    echo ""
+    echo "multiple packages found:"
+    echo ""
+    echo "$pkg"
+    echo ""
+    exit 1
+else
+    path=`bash -c "$cmd | grep path"`     # getting path
+    path=`echo $path | sed -e 's/.*://'`  # removing path label
+    bash -c "adb pull $path"              # pull apk
+    mv -v base.apk "$pkg.apk"
+    exit 0
+fi
+
