@@ -35,6 +35,10 @@ elif (( $cnt > 1 )); then
 else
     path=`bash -c "$cmd | grep path"`     # getting path
     path=`echo $path | sed -e 's/.*://'`  # removing path label
+    if [ "$path" = "" ]; then
+        echo "apk not found for $pkg !!"
+        exit 1
+    fi
     bash -c "adb pull $path"              # pull apk
     mv -v base.apk "$pkg.apk"
     exit 0
