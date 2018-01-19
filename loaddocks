@@ -26,8 +26,8 @@ excute_process wmmon "-s"
 #excute_process wmwifi "-i 30 -s -bl -tn"
 excute_process wmmemload
 #excute_process wmtimer "-e sound_alert2 -c -t 00:00:00"
-excute_process wmweather "--lcd -m -g  -s SKBO"
-#excute_process wmnut "-B 100% -L 80 -b 20 -U blazer@localhost"
+#excute_process wmweather "--lcd -m -g  -s SKBO"
+excute_process wmweather+ "-m -mmHg -cm -kph -tempc -metar-station LMML"
 #excute_process wmpinboard
 #excute_process gdeskcal "-x 1001 -y 877"
 excute_process wmcliphist "-s 0"
