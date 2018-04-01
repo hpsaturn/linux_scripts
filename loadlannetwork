@@ -7,27 +7,21 @@
 # REV000: Creación de funciones iniciales. Mode Ad-Hoc soportado
 ###################################################################
 
-DEVICE=wlan0
-MODULE=iwldvm
+DEVICE=eth1
 
 start_spot () {
-    remove_module
-    sleep 1
-    install_module
-    sleep 2
     ifconfig $DEVICE down
     sleep 1
     echo -n "set static gateway.."
     ifconfig $DEVICE 192.168.3.1 netmask 255.255.255.0
     ifconfig $DEVICE up
     echo "ok" 
-    echo "start hostapd:"
-    service hostapd start
-    echo "start NAT:"
+    echo "starting routing.."
     #/etc/init.d/load_iptables restart
     sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
     iptables -t nat -A POSTROUTING -s 192.168.3.0/24 -d 0.0.0.0/0 -j MASQUERADE
-    echo "start dnsmask:"
+    echo "starting dnsmask:"
+    cp /etc/dnsmasq_lan.conf /etc/dnsmasq.conf
     service dnsmasq restart
 }
 
@@ -38,21 +32,7 @@ stop_spot () {
 stop_services () {
     echo -n "stop services.."
     ifconfig $DEVICE down
-    service hostapd stop
     service dnsmasq stop
-    echo "done."
-    remove_module
-}
-
-remove_module () {
-    echo -n "remove modules.."
-    modprobe -rv $MODULE
-    echo "done."
-}
-
-install_module () {
-    echo -n "install modules.."
-    modprobe $MODULE
     echo "done."
 }
 
@@ -68,7 +48,7 @@ case "$1" in
     start_spot
     ;;
   *)
-    echo "Usage: load_hotspot {start|stop|restart}"
+    echo "Usage: load_lannetwork {start|stop|restart}"
     exit 1
     ;;
 esac
