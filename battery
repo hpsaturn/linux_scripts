@@ -1,0 +1,69 @@
+#!/usr/bin/python
+#
+########################################################
+# Raspi UPS Hat
+########################################################
+
+# We only provide 2 interfave to get battery information; 
+#
+#Interface 1:
+#Function: get current battery voltage
+#Return value: battery voltage;
+#float getv();
+
+#Interface 2:
+#Function:    get battery capacity
+#Return value: 0~100
+#float getsoc(); 
+
+import sys
+import time
+import os
+
+# import Raspi UPS Hat library
+import raspiupshat
+
+# import sensehat library
+from sense_hat import SenseHat
+
+
+
+# init Raspi UPS Hat
+raspiupshat.init();
+# init sensehat
+sense = SenseHat()
+#sense.set_rotation(90)
+green = (0, 50, 0)
+red = (150, 0, 0)
+
+def printBattery():
+    # Get info
+    print "Voltage:%5.2fV" % raspiupshat.getv();
+    print "Battery:%5i%%" % raspiupshat.getsoc();
+
+    # draw batery
+    n = int(round(raspiupshat.getsoc() / 10));
+    print "----------- "
+    sys.stdout.write('|')
+    for i in range(0,n):
+        sys.stdout.write('#')
+    for i in range(0,10-n):
+        sys.stdout.write(' ')
+    sys.stdout.write('|+\n')
+    print "----------- "
+
+    if raspiupshat.getsoc() == 100:
+        print "Battery FULL"
+    if raspiupshat.getsoc() < 20:
+        print "Battery LOW"
+        
+    sense.show_message("Batt:%2i%%" % raspiupshat.getsoc(), text_colour=green)
+
+while 1:
+    os.system('cls' if os.name == 'nt' else 'clear')
+    printBattery()
+    time.sleep(10)
+    if raspiupshat.getsoc() < 5:
+        print "System will shutdown now,bye!"
+        sense.show_message("System will shutdown now!", text_colour=red)
+        os.system("sudo shutdown")
