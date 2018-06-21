@@ -13,13 +13,13 @@ start_spot () {
     ifconfig $DEVICE down
     sleep 1
     echo -n "set static gateway.."
-    ifconfig $DEVICE 192.168.3.1 netmask 255.255.255.0
+    ifconfig $DEVICE 192.168.1.1 netmask 255.255.255.0
     ifconfig $DEVICE up
     echo "ok" 
     echo "starting routing.."
     #/etc/init.d/load_iptables restart
     sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
-    iptables -t nat -A POSTROUTING -s 192.168.3.0/24 -d 0.0.0.0/0 -j MASQUERADE
+    iptables -t nat -A POSTROUTING -s 192.168.1.0/24 -d 0.0.0.0/0 -j MASQUERADE
     echo "starting dnsmask:"
     cp /etc/dnsmasq_lan.conf /etc/dnsmasq.conf
     service dnsmasq restart

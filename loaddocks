@@ -23,7 +23,7 @@ excute_process wmmon
 excute_process wmtop
 excute_process wmnd "-i eth1"
 excute_process wmmon "-s"
-#excute_process wmwifi "-i 30 -s -bl -tn"
+excute_process wmwifi "-i 30 -s -bl -tn"
 excute_process wmmemload
 #excute_process wmtimer "-e sound_alert2 -c -t 00:00:00"
 #excute_process wmweather "--lcd -m -g  -s SKBO"
