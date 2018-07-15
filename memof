@@ -1,4 +1,5 @@
 #!/bin/bash
 
 cmd=$1
-ps -eo %mem,cmd --sort=-%mem | grep -i $cmd | awk -F ' ' '{sum += $1} END {print sum}'
+mem=`ps -eo %mem,cmd --sort=-%mem | grep -i $cmd | awk -F ' ' '{sum += $1} END {print sum}'`
+echo "${mem} %"
