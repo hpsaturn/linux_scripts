@@ -1,5 +1,9 @@
 #!/bin/bash
 
 cmd=$1
+
 mem=`ps -eo %mem,cmd --sort=-%mem | grep -i $cmd | awk -F ' ' '{sum += $1} END {print sum}'`
-echo "${mem} %"
+memtotal=`cat /proc/meminfo | grep MemTotal | awk '{print $2}'`
+memcmd=`awk 'BEGIN{printf "%.2f\n", (("'$mem'"*"'$memtotal'")/100000)}'`
+
+echo "${memcmd} Mb (${mem}%)"
