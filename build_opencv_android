@@ -15,34 +15,77 @@ print_header(){
     echo ""
 }
 
-rm -rf ./android_lib
+clean () {
+  sudo rm -rf ./android_lib
+  mkdir ./android_lib
+  sudo rm -rf ./tmp
+  mkdir -p ./tmp/android_lib
+}
 
-print_header "  ARMEABI  "
-docker run --rm --name caffe-android-builder -e ANDROID_ABI=armeabi -e N_JOBS=2 -v $(pwd)/android_lib/armeabi:/caffe-android-lib/android_lib caffe-android-lib ./build_opencv.sh
+build_arch () {
+  sudo rm -rf ./android_lib/$1
+  docker run --rm --name caffe-android-builder -e ANDROID_ABI=$1 -e N_JOBS=2 -v $(pwd)/android_lib/$1:/caffe-android-lib/android_lib caffe-android-lib ./build_opencv.sh
+  cp -r android_lib/$1/* tmp/android_lib/
+}
 
-print_header "ARMEABI-V7A"
-docker run --rm --name caffe-android-builder -e ANDROID_ABI=armeabi-v7a -e N_JOBS=2 -v $(pwd)/android_lib/armeabi-v7a:/caffe-android-lib/android_lib caffe-android-lib ./build_opencv.sh
+build_all () {
+  clean
+  build_arch "armeabi"
+  build_arch "armeabi-v7a"
+  build_arch "arm64-v8a"
+  build_arch "x86"
+  build_arch "x86_64"
 
-print_header " ARM64-V8A "
-docker run --rm --name caffe-android-builder -e ANDROID_ABI=arm64-v8a -e N_JOBS=2 -v $(pwd)/android_lib/arm64-v8a:/caffe-android-lib/android_lib caffe-android-lib ./build_opencv.sh
+  cd ./tmp/
+  DATE=`date +%Y%m%d`
+  tar jcf ../android_lib_multiarch$DATE.tar.bz2 android_lib
+  cd ..
+}
 
-print_header "   X86    "
-docker run --rm --name caffe-android-builder -e ANDROID_ABI=x86 -e N_JOBS=2 -v $(pwd)/android_lib/x86:/caffe-android-lib/android_lib caffe-android-lib ./build_opencv.sh
+build_image () {
+  docker build -t caffe-android-lib . 
+}
 
-print_header "  X86_64   "
-docker run --rm --name caffe-android-builder -e ANDROID_ABI=x86_64 -e N_JOBS=2 -v $(pwd)/android_lib/x86_64:/caffe-android-lib/android_lib caffe-android-lib ./build_opencv.sh
+#########################################################
+######################## MAIN ###########################
+#########################################################
 
-rm -rf ./tmp
-mkdir -p ./tmp/android_lib
-cp -r android_lib/armeabi/* tmp/android_lib/
-cp -r android_lib/armeabi-v7a/* tmp/android_lib/
-cp -r android_lib/arm64-v8a/* tmp/android_lib/
-cp -r android_lib/x86/* tmp/android_lib/
-cp -r android_lib/x86_64/* tmp/android_lib/
+if [ "$1" = "" ]; then
+  build_all
+else
+  mkdir -p ./android_lib
+  mkdir -p ./tmp/android_lib
 
-cd ./tmp/
-DATE=`date +%Y%m%d`
-tar jcf ../android_lib_multiarch$DATE.tar.bz2 android_lib
-cd ..
-rm -rf ./tmp
+  case "$1" in
+    armeabi)
+      print_header "  ARMEABI  "
+      build_arch $1
+      ;;
+    armeabi-v7a)
+      print_header "ARMEABI-V7A"
+      build_arch $1
+      ;;
+    arm64-v8a)
+      print_header " ARM64-V8A "
+      build_arch $1
+      ;;
+    x86)
+      print_header "   X86    "
+      build_arch $1
+      ;;
+    x86_64)
+      print_header "  X86_64   "
+      build_arch $1
+      ;;
+    clean)
+      clean
+      ;;
+    image)
+      build_image
+      ;;
+  esac
+fi
+
+exit 0
+
 
