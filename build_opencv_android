@@ -1,4 +1,11 @@
 #!/bin/bash
+##########################################################
+# @hpsaturn 20180806
+#
+# Prerequisits:
+# docker image: https://github.com/sh1r0/caffe-android-lib
+##########################################################
+
 
 print_header(){
     echo ""
