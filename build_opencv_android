@@ -6,6 +6,7 @@
 # docker image: https://github.com/sh1r0/caffe-android-lib
 ##########################################################
 
+build_system="linux"
 
 print_header(){
     echo ""
@@ -22,10 +23,26 @@ clean () {
   mkdir -p ./tmp/android_lib
 }
 
-build_arch () {
+build_arch_docker () {
   sudo rm -rf ./android_lib/$1
   docker run --rm --name caffe-android-builder -e ANDROID_ABI=$1 -e N_JOBS=2 -v $(pwd)/android_lib/$1:/caffe-android-lib/android_lib caffe-android-lib ./build_opencv.sh
   cp -r android_lib/$1/* tmp/android_lib/
+}
+
+
+build_arch_linux () {
+  sudo rm -rf ./android_lib/*
+  export ANDROID_ABI=$1
+  ./build_opencv.sh
+  cp -r android_lib/* tmp/android_lib/
+}
+
+build_arch () {
+if [ "$build_system" = "linux" ]; then
+  build_arch_linux "$1"
+else
+  build_arch_docker "$1"
+fi
 }
 
 build_all () {
