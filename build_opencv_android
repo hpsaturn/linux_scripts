@@ -7,6 +7,7 @@
 ##########################################################
 
 build_system="linux"
+branch=`cd opencv && git describe && cd ..`
 
 print_header(){
     echo ""
@@ -14,6 +15,21 @@ print_header(){
     echo "****   $1    *****"
     echo "*****************************"
     echo ""
+}
+
+print_details(){
+  echo ""
+  echo "DETAILS:"
+  echo ""
+  echo "config tools:"
+  env | grep ANDROID
+  echo ""
+  echo "opencv branch:"
+  echo "$branch"
+  echo ""
+  echo "output libraries:"
+  du -hs tmp/android_lib/opencv/sdk/native/libs/*
+  echo ""
 }
 
 clean () {
@@ -27,14 +43,16 @@ build_arch_docker () {
   sudo rm -rf ./android_lib/$1
   docker run --rm --name caffe-android-builder -e ANDROID_ABI=$1 -e N_JOBS=2 -v $(pwd)/android_lib/$1:/caffe-android-lib/android_lib caffe-android-lib ./build_opencv.sh
   cp -r android_lib/$1/* tmp/android_lib/
+  print_details
 }
-
 
 build_arch_linux () {
   sudo rm -rf ./android_lib/*
   export ANDROID_ABI=$1
   ./build_opencv.sh
   cp -r android_lib/* tmp/android_lib/
+  print_header $1 
+  print_details
 }
 
 build_arch () {
@@ -45,18 +63,24 @@ else
 fi
 }
 
+build_package () {
+  cd tmp/
+  DATE=`date +%Y%m%d`
+  tar jcf ../android_lib_multiarch_$branch_$DATE.tar.bz2 android_lib
+  cd ..
+  du -hs android_lib_multiarch_$branch_$DATE.tar.bz2
+}
+
 build_all () {
   clean
   build_arch "armeabi"
   build_arch "armeabi-v7a"
   build_arch "arm64-v8a"
   build_arch "x86"
-  build_arch "x86_64"
+  build_arch "x86_64" 
 
-  cd ./tmp/
-  DATE=`date +%Y%m%d`
-  tar jcf ../android_lib_multiarch$DATE.tar.bz2 android_lib
-  cd ..
+  build_package
+  print_details
 }
 
 build_image () {
@@ -96,6 +120,10 @@ else
       ;;
     clean)
       clean
+      ;;
+    package)
+      print_details
+      build_package
       ;;
     image)
       build_image
