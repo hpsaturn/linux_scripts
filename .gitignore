@@ -69,3 +69,12 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+#Vim files
+*.*.swp
+
+#config files
+*.cfg
+
+#custom directories
+src/
