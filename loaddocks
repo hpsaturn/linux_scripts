@@ -37,6 +37,6 @@ excute_process /home/avp/.dropbox-dist/dropboxd
 excute_process xfce4-power-manager
 #excute_process megasync
 
-
+xmodmap .xmodmaprc
 #xbindkeys &
 #dccm & 
