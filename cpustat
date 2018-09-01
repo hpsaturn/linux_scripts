@@ -1,0 +1,14 @@
+#!/bin/bash
+	
+cpu_temp=$(cat /sys/class/thermal/thermal_zone0/temp)
+cpu_temp1=$(($cpu_temp/1000))
+cpu_temp_up=$(($cpu_temp1/100))
+cpuTempM=$(($cpu_temp_up % $cpu_temp))
+cpuFreq=`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq`
+
+echo CPU temp"="$cpu_temp1"."$cpuTempM"'C"
+if [ -e /opt/vc/bin/vcgencmd ]; then
+  echo GPU $(/opt/vc/bin/vcgencmd measure_temp)
+fi
+echo CPU spd"="$cpuFreq
+
