@@ -2,20 +2,20 @@
 set -o errexit
 
 freecache () {
-    msg="freecache: "
+    msg="freecache:"
     sync
     sudo echo 3 > /proc/sys/vm/drop_caches &
     pidcache=$!
 }
 
 freeswap () {
-    msg="freeswap: "
+    msg="freeswap:"
     swapoff -a &
     pidswap=$!
 }
 
 enableswap () {
-    msg="freeswap: "
+    msg="freeswap:"
     swapon -a &
     pidswap=$!
 }
@@ -27,7 +27,7 @@ whilep () {
     while kill -0 $1 2> /dev/null; do
         getchar
         buffval=`cat /proc/meminfo | grep Buffers | awk '{print $2}'`
-        swapval=`cat /proc/meminfo | grep SwapFree | awk '{print $2}'`
+        swapval=`cat /proc/meminfo | grep SwapCached | awk '{print $2}'`
         printf "%s [buffer:%07d][swap:%07d] %s\r" "$msg" "$buffval" "$swapval" "$statuschar"
         sleep 0.05
     done
