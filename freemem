@@ -27,11 +27,12 @@ whilep () {
     while kill -0 $1 2> /dev/null; do
         getchar
         buffval=`cat /proc/meminfo | grep Buffers | awk '{print $2}'`
-        swapval=`cat /proc/meminfo | grep SwapCached | awk '{print $2}'`
-        printf "%s [buffer:%07d][swap:%07d] %s\r" "$msg" "$buffval" "$swapval" "$statuschar"
-        sleep 0.05
+        swapc=`cat /proc/meminfo | grep SwapCached | awk '{print $2}'`
+        swapt=`cat /proc/meminfo | grep SwapTotal | awk '{print $2}'`
+        printf "%s [buf:%07d][swapc:%07d][swpt:%07d] %s\r" "$msg" "$buffval" "$swapc" "$swapt" "$statuschar"
+        sleep 0.03
     done
-    printf "                                                     \r"
+    printf "                                                       \r"
 
 
 }
