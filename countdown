@@ -1,8 +1,29 @@
 #!/bin/bash
 
-if [ "$1" = "" ]; then
-  echo "error: missing seconds parameter!"
-  exit 1
+SECONDS=$1
+STEP=$2
+SOUND=$3
+
+if [ "$STEP" = "" ]; then
+    STEP=1
 fi
 
-clear; for i in `seq $1 -1 1`; do  banner $i; sleep 1; clear; done ; play -n synth .8 sine 4100 fade q 0.1 .3 0.1 repeat 3 &> /dev/null
+if [ "$SECONDS" = "" ]; then
+    echo "error: missing seconds parameter!"
+    exit 1
+fi
+
+if [ "$SOUND" = "off" ]; then
+    clear 
+    for i in `seq $SECONDS -1 1`; do  
+        banner $i; sleep $STEP; clear;
+    done
+    echo "countdown done"
+else
+    clear
+    for i in `seq $SECONDS -1 1`; do  
+        banner $i; sleep $STEP; clear; 
+    done 
+    play -n synth .8 sine 4100 fade q 0.1 .3 0.1 repeat 3 &> /dev/null
+fi
+
