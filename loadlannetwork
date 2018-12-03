@@ -7,7 +7,7 @@
 # REV000: Creación de funciones iniciales. Mode Ad-Hoc soportado
 ###################################################################
 
-DEVICE=eth1
+DEVICE=eth0
 
 start_spot () {
     ifconfig $DEVICE down
