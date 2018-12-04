@@ -1,29 +1,27 @@
 #!/bin/bash
 
 SECONDS=$1
-STEP=$2
-SOUND=$3
 
-if [ "$STEP" = "" ]; then
-    STEP=1
-fi
+hrs=0
+min=0
+sec=0
 
-if [ "$SECONDS" = "" ]; then
-    echo "error: missing seconds parameter!"
-    exit 1
-fi
+convert_seconds () {
+  min=$(($1/60))
+  sec=$(($1-($min*60)))
+  hrs=$(($min/60))
+  min=$(($min%60))
 
-if [ "$SOUND" = "off" ]; then
-    clear 
-    for i in `seq $SECONDS -1 1`; do  
-        banner $i; sleep $STEP; clear;
-    done
-    echo "countdown done"
-else
-    clear
-    for i in `seq $SECONDS -1 1`; do  
-        banner $i; sleep $STEP; clear; 
-    done 
-    play -n synth .8 sine 4100 fade q 0.1 .3 0.1 repeat 3 &> /dev/null
-fi
+  sec=$(echo $sec | awk '{printf("%02d", $1)}')
+  min=$(echo $min | awk '{printf("%02d", $1)}')
+  hrs=$(echo $hrs | awk '{printf("%02d", $1)}')
+}
+
+for i in `seq $SECONDS -1 0`; do  
+  clear
+  convert_seconds $i
+  figlet "$hrs : $min : $sec" ; sleep 1;
+done
+
+play -n synth .8 sine 4100 fade q 0.1 .3 0.1 repeat 3 &> /dev/null
 
