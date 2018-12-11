@@ -1,2 +1,4 @@
 #!/bin/bash
-ps aux | grep -e "$1" | cut -c10-15
+
+pidgrep=`basename "$0"`
+ps aux | grep -e "$1" | grep -v "$pidgrep" | grep -v 'grep' | cut -c10-15
