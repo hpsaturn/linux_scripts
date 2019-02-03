@@ -1,17 +1,22 @@
 #!/bin/bash
+
+DATE=`date +%Y%m%d`
+
 echo ""
 echo "On current directory:"
 echo ""
 echo "WRITE speed test.."
 echo ""
 
-time sudo sh -c "dd if=/dev/zero of=output bs=1M count=1024 && sync"
+time sudo sh -c "dd if=/dev/zero of=output$DATE bs=1M count=1024 && sync"
 
 echo ""
 echo "READ speed test.."
 echo ""
 
 sudo sh -c "sync && echo 3 > /proc/sys/vm/drop_caches"
-time sudo sh -c "dd if=output of=/dev/null bs=1M"
+time sudo sh -c "dd if=output$DATE of=/dev/null bs=1M"
 echo ""
+
+sudo rm output$DATE
 
