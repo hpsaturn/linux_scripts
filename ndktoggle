@@ -1,9 +1,9 @@
 #!/bin/bash
 
 sdkdir=/opt/android-sdk
-current_ndk=$(readlink -f /opt/android-sdk/ndk-bundle | sed 's/.*\///')
-current_tools=$(readlink -f /opt/android-sdk/tools | sed 's/.*\///')
-parent=$(readlink -f /opt/android-sdk/ndk-bundle | sed 's/\(.*\)\/.*/\1/')
+current_ndk=$(readlink -f $sdkdir/ndk-bundle | sed 's/.*\///')
+current_tools=$(readlink -f $sdkdir/tools | sed 's/.*\///')
+parent=$(readlink -f $sdkdir/ndk-bundle | sed 's/\(.*\)\/.*/\1/')
 
 if [ "$current_ndk" = "android-ndk-r15c" ]; then
     unlink $sdkdir/ndk-bundle
