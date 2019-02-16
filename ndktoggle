@@ -1,6 +1,21 @@
 #!/bin/bash
+############################################################
+# Prerequisites:
+#
+# In $sdkdir you should have already created the link 
+# symbolics to target like this for example:
+#
+# ndk-bundle -> /home/user/download/android/ndk/ndk-bundle
+# tools -> /home/user/download/android/ndk/tools_default
+#
+# and the alternative, for example:
+#
+# ndk-bundle -> /home/user/download/android/ndk/android-ndk-r15c
+# tools -> /home/user/download/android/ndk/tools_r25.2.5
+#
 
 sdkdir=/opt/android-sdk
+
 current_ndk=$(readlink -f $sdkdir/ndk-bundle | sed 's/.*\///')
 current_tools=$(readlink -f $sdkdir/tools | sed 's/.*\///')
 parent=$(readlink -f $sdkdir/ndk-bundle | sed 's/\(.*\)\/.*/\1/')
