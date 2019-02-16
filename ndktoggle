@@ -1,19 +1,20 @@
 #!/bin/bash
 
-current_ndk=`readlink -f /opt/android-sdk/ndk-bundle | sed 's/.*\///'`
-current_tools=`readlink -f /opt/android-sdk/tools | sed 's/.*\///'`
-parent=`readlink -f /opt/android-sdk/ndk-bundle | sed 's/\(.*\)\/.*/\1/'`
+sdkdir=/opt/android-sdk
+current_ndk=$(readlink -f /opt/android-sdk/ndk-bundle | sed 's/.*\///')
+current_tools=$(readlink -f /opt/android-sdk/tools | sed 's/.*\///')
+parent=$(readlink -f /opt/android-sdk/ndk-bundle | sed 's/\(.*\)\/.*/\1/')
 
 if [ "$current_ndk" = "android-ndk-r15c" ]; then
-    unlink /opt/android-sdk/ndk-bundle
-    unlink /opt/android-sdk/tools
-    ln -s $parent/ndk-bundle /opt/android-sdk/ndk-bundle
-    ln -s $parent/tools_default /opt/android-sdk/tools
+    unlink $sdkdir/ndk-bundle
+    unlink $sdkdir/tools
+    ln -s $parent/ndk-bundle $sdkdir/ndk-bundle
+    ln -s $parent/tools_default $sdkdir/tools
 else
-    unlink /opt/android-sdk/ndk-bundle
-    unlink /opt/android-sdk/tools
-    ln -s $parent/android-ndk-r15c /opt/android-sdk/ndk-bundle
-    ln -s $parent/tools_r25.2.5 /opt/android-sdk/tools
+    unlink $sdkdir/ndk-bundle
+    unlink $sdkdir/tools
+    ln -s $parent/android-ndk-r15c $sdkdir/ndk-bundle
+    ln -s $parent/tools_r25.2.5 $sdkdir/tools
 fi
    
 echo ""
@@ -22,7 +23,4 @@ echo ""
 echo -n "ndk  : "; echo `readlink -f /opt/android-sdk/ndk-bundle | sed 's/.*\///'`
 echo -n "tools: "; echo `readlink -f /opt/android-sdk/tools | sed 's/.*\///'`
 echo ""
-
-
-
 
