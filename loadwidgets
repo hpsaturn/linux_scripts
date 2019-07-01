@@ -17,8 +17,9 @@ fexecute () {
   $1 $2 &
   sleep 1
 }
-#execute wmmon 
-execute wmnd 
+execute wmmon 
+execute wmtop
+execute wmnd "-i eth0"
 fexecute wmmon "-s -b"
 execute wmmemload 
 

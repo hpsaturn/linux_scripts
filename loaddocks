@@ -21,19 +21,19 @@ excute_process () {
 excute_process gkrellm "-wm -g +1295+0" 
 excute_process wmmon
 excute_process wmtop
-excute_process wmnd "-i eth1"
+excute_process wmnd "-i eth0"
 excute_process wmmon "-s"
-excute_process wmwifi "-i 30 -s -bl -tn"
+#excute_process wmwifi "-i 30 -s -bl -tn"
 #excute_process wmtimer "-e sound_alert2 -c -t 00:00:00"
 #excute_process wmweather "--lcd -m -g  -s SKBO"
 #excute_process wmweather+ "-m -mmHg -cm -kph -tempc -metar-station LMML"
 #excute_process wmweather+ "-m -mmHg -cm -kph -tempc -metar-station SKBO"
-excute_process wmweather+ "-m -mmHg -cm -kph -tempc -metar-station EDDT"
+#excute_process wmweather+ "-m -mmHg -cm -kph -tempc -metar-station EDDT"
 #excute_process wmpinboard
 #excute_process gdeskcal "-x 1001 -y 877"
 excute_process wmcliphist "-s 0"
 excute_process wmmemload "-as 50 -lc '#ff6666'"
-excute_process xscreensaver
+#excute_process xscreensaver
 #excute_process /home/avp/.dropbox-dist/dropboxd
 excute_process xfce4-power-manager
 #excute_process megasync

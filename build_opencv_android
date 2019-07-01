@@ -7,7 +7,9 @@
 ##########################################################
 
 build_system="linux"
-branch=`cd opencv && git describe && cd ..`
+cd opencv
+branch=`git describe --exact-match --abbrev=0`
+cd ..
 
 print_header(){
     echo ""
@@ -66,18 +68,18 @@ fi
 build_package () {
   cd tmp/
   DATE=`date +%Y%m%d`
-  tar jcf ../android_lib_multiarch_$branch_$DATE.tar.bz2 android_lib
+  tar jcf ../android_lib_multiarch_${branch}_$DATE.tar.bz2 android_lib
   cd ..
-  du -hs android_lib_multiarch_$branch_$DATE.tar.bz2
+  du -hs android_lib_multiarch_${branch}_$DATE.tar.bz2
 }
 
 build_all () {
   clean
   build_arch "armeabi"
   build_arch "armeabi-v7a"
-  build_arch "arm64-v8a"
-  build_arch "x86"
-  build_arch "x86_64" 
+  #build_arch "arm64-v8a"
+  #build_arch "x86"
+  #build_arch "x86_64" 
 
   build_package
   print_details
