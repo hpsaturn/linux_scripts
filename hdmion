@@ -1,11 +1,11 @@
 #!/bin/bash
 
 xrandr --output HDMI1 --same-as eDP1 --mode 1920x1080 --primary --auto
-sleep 2
+sleep 1
 xrandr --output eDP1 --off
-sleep 2
+sleep 1
 kill -usr1 `pgrep wmaker | tail -1` # restart wmaker
-sleep 2
+sleep 1
 xrandr --output eDP1 --below HDMI1 --noprimary --auto 
 killall gkrellm
 gkrellm -wm -g +1848+0 & 
