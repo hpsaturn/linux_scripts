@@ -2,14 +2,61 @@
 #
 #create a file to work with
 #
-echo "creating a file to work with"
-dd if=/dev/zero of=/var/tmp/infile count=1175000
 
-for bs in  1k 2k 4k 8k 16k 32k 64k 128k 256k 512k 1M 2M 4M 8M 
+bestspeed=0
+bestblock=""
 
-do
-        echo "Testing block size  = $bs"
-        dd if=/var/tmp/infile of=/var/tmp/outfile bs=$bs
-        echo ""
-done
-rm /var/tmp/infile /var/tmp/outfile
+resetvars () {
+ bestspeed=0
+ bestblock=""
+}
+
+ddspeedtest () {
+
+  for bs in  1k 2k 4k 8k 16k 32k 64k 128k 256k 512k 1M 2M 4M 8M 
+
+  do
+    speed=`sync; sudo dd if=$1 of=$2 bs=$bs 2>&1 >/dev/null | grep 'copied' | awk '{print $8}'`
+    speed=`printf "%i" "$speed" 2>/dev/null`
+    if (( "$speed" >= "$bestspeed" )) ; then
+      bestspeed=$speed
+      bestblock=$bs
+    fi
+    printf "                                       \r"
+    printf "%s\tBS:%s\t%s MB/s\r" "$3" "$bs" "$speed"
+    sleep 0.1
+  done
+  printf "                                 \r"
+
+}
+
+runTest () {
+  prefix="[WRITE]"
+  resetvars
+  ddspeedtest "/tmp/infileddtest" "outfileddtest" $prefix
+  printf "%s\tBest block:\t%s\t%s MB/s\n" "$prefix" "$bestblock" "$bestspeed"
+
+  prefix="[READ ]"
+  resetvars
+  ddspeedtest "outfileddtest" "/dev/null" "$prefix"
+  printf "%s\tBest block:\t%s\t%s MB/s\n" "$prefix" "$bestblock" "$bestspeed"
+
+  sudo rm /tmp/infileddtest outfileddtest
+  echo ""
+}
+
+tempFile () {
+  echo -n "[FILE ] "
+  sudo dd if=/dev/zero of=/tmp/infileddtest count=$1 &> /dev/null
+  filesize=`du -hs /tmp/infileddtest`
+  echo "$filesize"
+}
+
+echo ""
+tempFile 128000
+runTest
+tempFile 256000
+runTest
+tempFile 1024000
+runTest
+
