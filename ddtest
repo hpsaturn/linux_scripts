@@ -16,7 +16,7 @@ ddspeedtest () {
   for bs in  1k 2k 4k 8k 16k 32k 64k 128k 256k 512k 1M 2M 4M 8M 
 
   do
-    speed=`sync; sudo dd if=$1 of=$2 bs=$bs 2>&1 >/dev/null | grep 'copied' | awk '{print $8}'`
+    speed=`sync; dd if=$1 of=$2 bs=$bs 2>&1 >/dev/null | grep 'copied' | awk '{print $8}'`
     speed=`printf "%i" "$speed" 2>/dev/null`
     if (( "$speed" >= "$bestspeed" )) ; then
       bestspeed=$speed
@@ -41,13 +41,13 @@ runTest () {
   ddspeedtest "outfileddtest" "/dev/null" "$prefix"
   printf "%s\tBest block:\t%s\t%s MB/s\n" "$prefix" "$bestblock" "$bestspeed"
 
-  sudo rm /tmp/infileddtest outfileddtest
+  rm /tmp/infileddtest outfileddtest
   echo ""
 }
 
 tempFile () {
   echo -n "[FILE ] "
-  sudo dd if=/dev/zero of=/tmp/infileddtest count=$1 &> /dev/null
+  dd if=/dev/zero of=/tmp/infileddtest count=$1 &> /dev/null
   filesize=`du -hs /tmp/infileddtest`
   echo "$filesize"
 }
