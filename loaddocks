@@ -28,7 +28,7 @@ excute_process gkrellm "-wm -g +1295+0"
 #excute_process wmweather "--lcd -m -g  -s SKBO"
 #excute_process wmweather+ "-m -mmHg -cm -kph -tempc -metar-station LMML"
 #excute_process wmweather+ "-m -mmHg -cm -kph -tempc -metar-station SKBO"
-excute_process wmweather+ "-m -mmHg -cm -kph -tempc -metar-station EDDT -location '52.53701N 13.4375E'"
+excute_process wmweather+ "-m -mmHg -cm -kph -tempc -metar-station EDDT -location '52.53N 13.43E'"
 #excute_process wmpinboard
 #excute_process gdeskcal "-x 1001 -y 877"
 excute_process wmcliphist "-s 0"
