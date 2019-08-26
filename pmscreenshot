@@ -1,0 +1,23 @@
+#!/bin/bash
+####################################################################
+# adb screenshot capture
+####################################################################
+
+if [ "$1" = "help" ] || [ "$1" = "--help" ]; then
+  echo ""
+  echo "usage: pmscreenshot"
+  echo "output: ./device-YYYY-DD-MM_HHMMSS.png"
+  echo ""
+  exit 1
+fi
+DATE=`date +%Y-%m-%d-%H%M%S`
+FILE=screencap.png
+TEMP=/sdcard/$FILE
+
+echo "capturing.."
+adb shell screencap -p $TEMP
+adb pull $TEMP
+cp $FILE device-${DATE}.png
+echo "ready: device-${DATE}.png"
+adb shell rm $TEMP
+
