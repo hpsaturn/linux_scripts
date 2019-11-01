@@ -157,7 +157,7 @@ function runincrementalbkp () {
 
 checkdirs
 
-case "$command" in
+case "$COMMAND" in
   full)
     runfullbkp
     ;;
