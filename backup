@@ -10,16 +10,16 @@
 # 20121219 Autoconfigure via console paramaters
 # 20130219 Add help
 
-COMPUTER="$1"                             # name of this computer
-ROOT="$2"                                 # target directory
-DIRECTORIES="$3"                          # directoris to backup
-SECONDARY="$4"                          # secondary store backup
+COMMAND="$1"
+COMPUTER="$2"                             # name of this computer
+ROOT="$3"                                 # target directory
+DIRECTORIES="$4"                          # directoris to backup
+SECONDARY="$5"                            # secondary store backup
 
 BACKUPDIR=$ROOT/$COMPUTER               # where to store the backups
 TIMEDIR=$ROOT/$COMPUTER/last-full       # where to store time of full backup
 TAR=/bin/tar                            # name and locaction of tar
 IGNORE=$ROOT/$COMPUTER/ignorefiles      # Archivos a ignorar
-FULLBKP_DAY="01"
 
 PATH=/usr/local/bin:/usr/bin:/bin
 DOW=`date +%a`              		# Day of the week e.g. Mon
@@ -38,14 +38,67 @@ DATE=`date +%Y%m%d`                 # Date format AAAAMMDD
 
 function showHelp(){
     echo ""
-    echo "Usage: backup NameOfBackup RootStorage DirToBackup [SecondaryStorage]"
+    echo "Usage: backup [Command] NameOfBackup RootStorage DirToBackup [SecondaryStorage]"
     echo ""
-    echo "Example dual storage: backup home /bkp /home/user /mnt/samba/bkp" 
-    echo "Example simple:       backup home /bkp /home/user" 
+    echo "Example dual storage: backup full home /bkp /home/user /mnt/samba/bkp" 
+    echo "Example simple:       backup full home /bkp /home/user" 
     echo ""
     echo "Example: Install in crontab:"
-    echo "00  19  *   *   *   /home/user/bin/backup home /bkp /home/user /mnt/samba/bkp"
+    echo "00  19  *   *   *   /home/user/bin/backup full home /bkp /home/user /mnt/samba/bkp"
     echo ""
+    echo "Commands:"
+    echo ""
+    echo "full: Full backup, output with complete date name file" 
+    echo "week: Week full backup, output with day name file"
+    echo "increm: Incremental backup respect last full backup (week or full)"
+    echo ""
+    echo "optional: [SecondaryStorage]"
+    echo ""
+}
+
+function checkdirs () {
+  if [ "$COMPUTER" == "" ]; then
+    showHelp   
+    exit 3
+  fi
+
+  if [[ ( "$ROOT" == "" ) || ( "$DIRECTORIES" == "" ) ]]; then
+    echo ""
+    echo "ERROR: Root backup directory or target directory not found!"
+    showHelp
+    exit 3
+  fi
+
+  if [ ! -d "$ROOT/$COMPUTER" ]; then
+    echo -n "CREATING ROOT BACKUP: $ROOT"
+    mkdir -p $ROOT/$COMPUTER
+    INITBKP=1
+    echo " [OK]"
+  fi
+
+  if [ ! -d "$TIMEDIR" ]; then
+    echo -n "CONFIGURE TIME DIRECTORY: $TIMEDIR"
+    mkdir -p $TIMEDIR
+    NOW=`date +%d-%b`
+    echo $NOW > $TIMEDIR/$COMPUTER-full-date
+    echo " [OK]"
+  fi
+
+  if [ ! -f "$IGNORE" ]; then
+    echo -n "CREATING IGNORE CONFIG FILE: $IGNORE"
+    touch $IGNORE
+    echo " [OK]"
+  fi
+
+  if [ "$SECONDARY" != "" ]; then
+
+    if [ ! -d "$SECONDARY/$COMPUTER" ]; then
+      echo -n "CREATING SECONDARY BACKUP: $SECONDARY"
+      mkdir -p $SECONDARY/$COMPUTER
+      echo " [OK]"
+      echo ""
+    fi
+  fi
 }
 
 function runbackup () {
@@ -59,90 +112,63 @@ function runbackup () {
   fi
 }
 
-if [ "$COMPUTER" == "" ]; then
-    showHelp   
-    exit 3
-fi
+function cleanfile () {
+  if [ -f $FILE ]; then
+    rm $FILE
+  fi
+}
 
-if [[ ( "$ROOT" == "" ) || ( "$DIRECTORIES" == "" ) ]]; then
-    echo ""
-    echo "ERROR: Root backup directory or target directory not found!"
-    showHelp
-    exit 3
-fi
-
-if [ ! -d "$ROOT/$COMPUTER" ]; then
-    echo -n "CREATING ROOT BACKUP: $ROOT"
-    mkdir -p $ROOT/$COMPUTER
-    INITBKP=1
-    echo " [OK]"
-fi
-
-if [ ! -d "$TIMEDIR" ]; then
-    echo -n "CONFIGURE TIME DIRECTORY: $TIMEDIR"
-    mkdir -p $TIMEDIR
-    NOW=`date +%d-%b`
-    echo $NOW > $TIMEDIR/$COMPUTER-full-date
-    echo " [OK]"
-fi
-
-if [ ! -f "$IGNORE" ]; then
-    echo -n "CREATING IGNORE CONFIG FILE: $IGNORE"
-    touch $IGNORE
-    echo " [OK]"
-fi
-
-if [ "$SECONDARY" != "" ]; then
-
-    if [ ! -d "$SECONDARY/$COMPUTER" ]; then
-        echo -n "CREATING SECONDARY BACKUP: $SECONDARY"
-        mkdir -p $SECONDARY/$COMPUTER
-        echo " [OK]"
-        echo ""
-    fi
-
-fi
+function updatelastdate () {
+  # Update full backup date (/tmp for samba)
+  NOW=`date +%d-%b` 
+  echo $NOW > /tmp/$COMPUTER-full-date
+  mv /tmp/$COMPUTER-full-date $TIMEDIR/
+}
 
 # Monthly full backup
-if [[( $DOM = "$FULLBKP_DAY" ) || ( $INITBKP != "" )]]; then
-        NEWER=""
-        FILE=$BACKUPDIR/bkp_$COMPUTER_$DATE.tar.gz
-        if [ -f $FILE ]; then
-          rm $FILE
-        fi
-        
-        echo "Monthly full backup ==> $FILE"
-        runbackup
-        
-fi
+function runfullbkp () {
+  NEWER=""
+  FILE=$BACKUPDIR/bkp_$COMPUTER_$DATE.tar.gz
+  echo "Monthly full backup ==> $FILE"
+  cleanfile
+  runbackup
+  updatelastdate
+}
 
 # Weekly full backup
-if [ $DOW = "Wed" ]; then
-        NEWER=""
-        NOW=`date +%d-%b`
-
-        # Update full backup date (/tmp for samba)
-        echo $NOW > /tmp/$COMPUTER-full-date
-        mv /tmp/$COMPUTER-full-date $TIMEDIR/
-        # remove file if exist 
-        FILE=$BACKUPDIR/$COMPUTER-$DOW.tar.gz
-        if [ -f $FILE ]; then
-          rm $FILE
-        fi
-        
-        echo "Weekly full backup ==> $FILE"
-        runbackup
+function runfullweekbkp () {
+  NEWER=""
+  FILE=$BACKUPDIR/$COMPUTER-$DOW.tar.gz
+  echo "Weekly full backup ==> $FILE"
+  cleanfile
+  runbackup
+  updatelastdate
+}
 
 # Make incremental backup - overwrite last weeks
-else
-        # Get date of last full backup
-        NEWER="--newer `cat $TIMEDIR/$COMPUTER-full-date`"
-        # remove file if exist 
-        FILE=$BACKUPDIR/$COMPUTER-$DOW.tar.gz
-        if [ -f $FILE ]; then
-          rm $FILE
-        fi
-        
-        echo "Incremental backup ==> $FILE"
-        runbackup
-fi
+function runincrementalbkp () {
+  # Get date of last full backup
+  NEWER="--newer `cat $TIMEDIR/$COMPUTER-full-date`"
+  FILE=$BACKUPDIR/$COMPUTER-$DOW.tar.gz
+  echo "Incremental backup ==> $FILE"
+  cleanfile
+  runbackup
+}
+
+checkdirs
+
+case "$command" in
+  full)
+    runfullbkp
+    ;;
+  week)
+    runfullweekbkp
+    ;;
+  increm)
+    runincrementalbkp
+    ;;
+  *)
+    showHelp
+    ;;
+esac
+
