@@ -10,16 +10,16 @@
 # 20121219 Autoconfigure via console paramaters
 # 20130219 Add help
 
-COMPUTER=$1                             # name of this computer
-ROOT=$2                                 # target directory
-DIRECTORIES=$3                          # directoris to backup
-SECONDARY=$4                            # secondary store backup
+COMPUTER="$1"                             # name of this computer
+ROOT="$2"                                 # target directory
+DIRECTORIES="$3"                          # directoris to backup
+SECONDARY="$4"                          # secondary store backup
 
 BACKUPDIR=$ROOT/$COMPUTER               # where to store the backups
 TIMEDIR=$ROOT/$COMPUTER/last-full       # where to store time of full backup
 TAR=/bin/tar                            # name and locaction of tar
 IGNORE=$ROOT/$COMPUTER/ignorefiles      # Archivos a ignorar
-FULLBKP_DAY=22
+FULLBKP_DAY="01"
 
 PATH=/usr/local/bin:/usr/bin:/bin
 DOW=`date +%a`              		# Day of the week e.g. Mon
@@ -46,6 +46,17 @@ function showHelp(){
     echo "Example: Install in crontab:"
     echo "00  19  *   *   *   /home/user/bin/backup home /bkp /home/user /mnt/samba/bkp"
     echo ""
+}
+
+function runbackup () {
+  echo "ignore file path ==> $IGNORE"
+  echo "target dir  path ==> $DIRECTORIES"
+  $TAR $NEWER -zcf $FILE --exclude-from=$IGNORE $DIRECTORIES
+
+  if [ "$SECONDARY" != "" ]; then
+    echo "copy to secondary ==> $SECONDARY/$COMPUTER"
+    cp -f $FILE $SECONDARY/$COMPUTER/
+  fi
 }
 
 if [ "$COMPUTER" == "" ]; then
@@ -101,11 +112,8 @@ if [[( $DOM = "$FULLBKP_DAY" ) || ( $INITBKP != "" )]]; then
         fi
         
         echo "Monthly full backup ==> $FILE"
-        $TAR $NEWER -zcf $FILE --exclude-from=$IGNORE $DIRECTORIES
+        runbackup
         
-        if [ -d "$SECONDARY/$COMPUTER" ]; then
-            cp -f $FILE $SECONDARY/$COMPUTER/
-        fi
 fi
 
 # Weekly full backup
@@ -123,11 +131,7 @@ if [ $DOW = "Wed" ]; then
         fi
         
         echo "Weekly full backup ==> $FILE"
-        $TAR $NEWER -zcf $FILE --exclude-from=$IGNORE $DIRECTORIES
-        
-        if [ -d "$SECONDARY/$COMPUTER" ]; then
-            cp -f $FILE $SECONDARY/$COMPUTER/
-        fi
+        runbackup
 
 # Make incremental backup - overwrite last weeks
 else
@@ -139,10 +143,6 @@ else
           rm $FILE
         fi
         
-        echo "incremental backup ==> $FILE"
-        $TAR $NEWER -zcf $FILE --exclude-from=$IGNORE $DIRECTORIES
-        
-        if [ -d "$SECONDARY/$COMPUTER" ]; then
-            cp -f $FILE $SECONDARY/$COMPUTER/
-        fi
+        echo "Incremental backup ==> $FILE"
+        runbackup
 fi
