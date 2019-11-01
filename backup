@@ -4,9 +4,9 @@
 
 # Created 07 February 2000
 # Based on a script by Daniel O'Callaghan <danny@freebsd.org>
-# and modified by Gerhard Mourani <gmourani@videotron.ca>
 
 # REVISIONS
+# 20191101 Main refactor, isolated options (for cron)
 # 20121219 Autoconfigure via console paramaters
 # 20130219 Add help
 
@@ -19,40 +19,38 @@ SECONDARY="$5"                            # secondary store backup
 BACKUPDIR=$ROOT/$COMPUTER               # where to store the backups
 TIMEDIR=$ROOT/$COMPUTER/last-full       # where to store time of full backup
 TAR=/bin/tar                            # name and locaction of tar
-IGNORE=$ROOT/$COMPUTER/ignorefiles      # Archivos a ignorar
+IGNORE=$ROOT/$COMPUTER/ignorefiles      # ignore files
 
 PATH=/usr/local/bin:/usr/bin:/bin
 DOW=`date +%a`              		# Day of the week e.g. Mon
 DOM=`date +%d`              		# Date of the Month e.g. 27
-DM=`date +%d%b`             	    # Date and Month e.g. 27Sep
-DATE=`date +%Y%m%d`                 # Date format AAAAMMDD
+DM=`date +%d%b`             	  # Date and Month e.g. 27Sep
+DATE=`date +%Y%m%d`             # Date format AAAAMMDD
 
-# On the 1st of the month a permanet full backup is made
-# Every Sunday a full backup is made - overwriting last Sundays backup
-# The rest of the time an incremental backup is made. Each incremental
-# backup overwrites last weeks incremental backup of the same name.
+# The full backup command add a full date format to output file
+# The full week backup command overwrite the same incremental bkp with a new full bkp.
+# Each icremental backup overwrites last weeks incremental backup of the same name.
 #
 # if NEWER = "", then tar backs up all files in the directories
 # otherwise it backs up files newer than the NEWER date. NEWER
-# gets it date from the file written every Sunday.
+# gets it date from the file written on each full bkp.
 
 function showHelp(){
     echo ""
-    echo "Usage: backup [Command] NameOfBackup RootStorage DirToBackup [SecondaryStorage]"
+    echo "Usage: backup [Command] source roottarget target [OptionalStorage]"
     echo ""
     echo "Example dual storage: backup full home /bkp /home/user /mnt/samba/bkp" 
     echo "Example simple:       backup full home /bkp /home/user" 
     echo ""
-    echo "Example: Install in crontab:"
-    echo "00  19  *   *   *   /home/user/bin/backup full home /bkp /home/user /mnt/samba/bkp"
+    echo "Example: installing in crontab:"
+    echo "00  19  *   *   *   /home/user/bin/backup increm home /bkp /home/user"
+    echo "00  20  *   *   0   /home/user/bin/backup week home /bkp /home/user"
     echo ""
     echo "Commands:"
     echo ""
     echo "full: Full backup, output with complete date name file" 
     echo "week: Week full backup, output with day name file"
     echo "increm: Incremental backup respect last full backup (week or full)"
-    echo ""
-    echo "optional: [SecondaryStorage]"
     echo ""
 }
 
