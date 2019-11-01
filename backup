@@ -37,7 +37,7 @@ DATE=`date +%Y%m%d`             # Date format AAAAMMDD
 
 function showHelp(){
     echo ""
-    echo "Usage: backup [Command] source roottarget target [OptionalStorage]"
+    echo "Usage: backup [command] name storage target [optional storage]"
     echo ""
     echo "Example dual storage: backup full home /bkp /home/user /mnt/samba/bkp" 
     echo "Example simple:       backup full home /bkp /home/user" 
