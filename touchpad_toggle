@@ -1,0 +1,12 @@
+#!/bin/bash
+tpad_device=`xinput list | grep Touchpad | awk '{print $6}' | sed -e 's/id=//'`
+tpad_enable=`xinput --list-props $tpad_device | grep 'Device Enable' | awk '{print $4}'`
+
+if [ "$tpad_enable" == "1" ]; then
+  xinput --disable $tpad_device
+elif [ "$tpad_enable" == "0" ]; then
+  xinput --enable $tpad_device
+else
+  echo "!WARNNING touchpad device notfound!"
+fi
+
