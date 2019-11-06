@@ -38,13 +38,13 @@ increm: Incremental backup respect last full backup (week or full)
 
 ## Android Utils
 
-**pmlist** : it search packages by pattern and it list packgaes
-**pmclear**: it search package by pattern and it clear package data (be careful)
-**pminfo** : it search package by pattern and it show package info
-**pmpaste**: paste string to into Android device UI via adb
-**pmpull** : fetch package by pattern
-**pmscreenshot**: get screenshot to current directory
-**pmstart**: launch default activity
-**pmstop** : stop package by pattern
-**pmuninstall**: uninstall package by pattern
+**pmlist** : it search packages by pattern and it list packgaes  
+**pmclear**: it search package by pattern and it clear package data (be careful)  
+**pminfo** : it search package by pattern and it show package info  
+**pmpaste**: paste string to into Android device UI via adb  
+**pmpull** : fetch package by pattern  
+**pmscreenshot**: get screenshot to current directory  
+**pmstart**: launch default activity  
+**pmstop** : stop package by pattern  
+**pmuninstall**: uninstall package by pattern  
 
