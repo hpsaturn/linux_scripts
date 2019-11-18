@@ -12,7 +12,7 @@ xrandr --output eDP-1 --below HDMI-2 --noprimary --auto
 sleep 1
 xrandr --output HDMI-1 --below eDP-1 --rotate right --auto
 killall gkrellm
-gkrellm -wm -g +1841+0 & 
+gkrellm -wm -g +1849+0 & 
 
 
 
