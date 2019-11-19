@@ -22,14 +22,14 @@ parent=$(readlink -f $sdkdir/ndk-bundle | sed 's/\(.*\)\/.*/\1/')
 
 if [ "$current_ndk" = "android-ndk-r15c" ]; then
     unlink $sdkdir/ndk-bundle
-    unlink $sdkdir/tools
-    ln -s $parent/ndk-bundle $sdkdir/ndk-bundle
-    ln -s $parent/tools_default $sdkdir/tools
+    #unlink $sdkdir/tools
+    ln -s $sdkdir/ndk/20.1.5948944 $sdkdir/ndk-bundle
+    #ln -s $parent/tools_default $sdkdir/tools
 else
     unlink $sdkdir/ndk-bundle
-    unlink $sdkdir/tools
+    #unlink $sdkdir/tools
     ln -s $parent/android-ndk-r15c $sdkdir/ndk-bundle
-    ln -s $parent/tools_r25.2.5 $sdkdir/tools
+    #ln -s $parent/tools_r25.2.5 $sdkdir/tools
 fi
    
 echo ""
