@@ -6,20 +6,26 @@
 # Based on a script by Daniel O'Callaghan <danny@freebsd.org>
 
 # REVISIONS
+# 20201024 Refactor names and comments
 # 20191101 Main refactor, isolated options (for cron)
 # 20121219 Autoconfigure via console paramaters
 # 20130219 Add help
 
-COMMAND="$1"
-COMPUTER="$2"                             # name of this computer
-ROOT="$3"                                 # target directory
-DIRECTORIES="$4"                          # directoris to backup
-SECONDARY="$5"                            # secondary store backup
+COMMAND="$1"                              # task to do: full, week, incremental
+TAGNAME="$2"                              # backup name 
+ROOT="$3"                                 # root of storage path
+TARGET="$4"                               # directory to backup
 
-BACKUPDIR=$ROOT/$COMPUTER               # where to store the backups
-TIMEDIR=$ROOT/$COMPUTER/last-full       # where to store time of full backup
+SECONDARY="$5"                            # secondary storege path (optional)
+
+################################################################################
+##################### END OF CONFIGURATION #####################################
+################################################################################
+
+BACKUPDIR=$ROOT/$TAGNAME               # where to store the backups
+TIMEDIR=$ROOT/$TAGNAME/last-full       # where to store time of full backup
 TAR=/bin/tar                            # name and locaction of tar
-IGNORE=$ROOT/$COMPUTER/ignorefiles      # ignore files
+IGNORE=$ROOT/$TAGNAME/ignorefiles      # ignore files
 
 PATH=/usr/local/bin:/usr/bin:/bin
 DOW=`date +%a`              		# Day of the week e.g. Mon
@@ -31,16 +37,16 @@ DATE=`date +%Y%m%d`             # Date format AAAAMMDD
 # The full week backup command overwrite the same incremental bkp with a new full bkp.
 # Each icremental backup overwrites last weeks incremental backup of the same name.
 #
-# if NEWER = "", then tar backs up all files in the directories
+# if NEWER = "", then tar backs up all files in the TARGET
 # otherwise it backs up files newer than the NEWER date. NEWER
 # gets it date from the file written on each full bkp.
 
 function showHelp(){
     echo ""
-    echo "Usage: backup [command] name storage target [optional storage]"
+    echo "Usage: backup [command] tagname storage target [optional storage]"
     echo ""
-    echo "Example dual storage: backup full home /bkp /home/user /mnt/samba/bkp" 
     echo "Example simple:       backup full home /bkp /home/user" 
+    echo "Example dual storage: backup full home /bkp /home/user /mnt/samba/bkp" 
     echo ""
     echo "Example: installing in crontab:"
     echo "00  19  *   *   *   /home/user/bin/backup increm home /bkp /home/user"
@@ -51,25 +57,26 @@ function showHelp(){
     echo "full: Full backup, output with complete date name file" 
     echo "week: Week full backup, output with day name file"
     echo "increm: Incremental backup respect last full backup (week or full)"
+    echo "init: create empty tagname directory structure on storage directory"
     echo ""
 }
 
 function checkdirs () {
-  if [ "$COMPUTER" == "" ]; then
+  if [ "$TAGNAME" == "" ]; then
     showHelp   
     exit 3
   fi
 
-  if [[ ( "$ROOT" == "" ) || ( "$DIRECTORIES" == "" ) ]]; then
+  if [[ ( "$ROOT" == "" ) || ( "$TARGET" == "" ) ]]; then
     echo ""
     echo "ERROR: Root backup directory or target directory not found!"
     showHelp
     exit 3
   fi
 
-  if [ ! -d "$ROOT/$COMPUTER" ]; then
+  if [ ! -d "$ROOT/$TAGNAME" ]; then
     echo -n "CREATING ROOT BACKUP: $ROOT"
-    mkdir -p $ROOT/$COMPUTER
+    mkdir -p $ROOT/$TAGNAME
     INITBKP=1
     echo " [OK]"
   fi
@@ -78,7 +85,7 @@ function checkdirs () {
     echo -n "CONFIGURE TIME DIRECTORY: $TIMEDIR"
     mkdir -p $TIMEDIR
     NOW=`date +%d-%b`
-    echo $NOW > $TIMEDIR/$COMPUTER-full-date
+    echo $NOW > $TIMEDIR/$TAGNAME-full-date
     echo " [OK]"
   fi
 
@@ -90,9 +97,9 @@ function checkdirs () {
 
   if [ "$SECONDARY" != "" ]; then
 
-    if [ ! -d "$SECONDARY/$COMPUTER" ]; then
+    if [ ! -d "$SECONDARY/$TAGNAME" ]; then
       echo -n "CREATING SECONDARY BACKUP: $SECONDARY"
-      mkdir -p $SECONDARY/$COMPUTER
+      mkdir -p $SECONDARY/$TAGNAME
       echo " [OK]"
       echo ""
     fi
@@ -101,12 +108,12 @@ function checkdirs () {
 
 function runbackup () {
   echo "ignore file path ==> $IGNORE"
-  echo "target dir  path ==> $DIRECTORIES"
-  $TAR $NEWER -zcf $FILE --exclude-from=$IGNORE $DIRECTORIES
+  echo "target dir  path ==> $TARGET"
+  $TAR $NEWER -zcf $FILE --exclude-from=$IGNORE $TARGET
 
   if [ "$SECONDARY" != "" ]; then
-    echo "copy to secondary ==> $SECONDARY/$COMPUTER"
-    cp -f $FILE $SECONDARY/$COMPUTER/
+    echo "copy to secondary ==> $SECONDARY/$TAGNAME"
+    cp -f $FILE $SECONDARY/$TAGNAME/
   fi
 }
 
@@ -119,14 +126,14 @@ function cleanfile () {
 function updatelastdate () {
   # Update full backup date (/tmp for samba)
   NOW=`date +%d-%b` 
-  echo $NOW > /tmp/$COMPUTER-full-date
-  mv /tmp/$COMPUTER-full-date $TIMEDIR/
+  echo $NOW > /tmp/$TAGNAME-full-date
+  mv /tmp/$TAGNAME-full-date $TIMEDIR/
 }
 
 # Monthly full backup
 function runfullbkp () {
   NEWER=""
-  FILE=$BACKUPDIR/bkp_$COMPUTER_$DATE.tar.gz
+  FILE=$BACKUPDIR/bkp_$TAGNAME_$DATE.tar.gz
   echo "Monthly full backup ==> $FILE"
   cleanfile
   runbackup
@@ -136,7 +143,7 @@ function runfullbkp () {
 # Weekly full backup
 function runfullweekbkp () {
   NEWER=""
-  FILE=$BACKUPDIR/$COMPUTER-$DOW.tar.gz
+  FILE=$BACKUPDIR/$TAGNAME-$DOW.tar.gz
   echo "Weekly full backup ==> $FILE"
   cleanfile
   runbackup
@@ -146,11 +153,20 @@ function runfullweekbkp () {
 # Make incremental backup - overwrite last weeks
 function runincrementalbkp () {
   # Get date of last full backup
-  NEWER="--newer `cat $TIMEDIR/$COMPUTER-full-date`"
-  FILE=$BACKUPDIR/$COMPUTER-$DOW.tar.gz
+  NEWER="--newer `cat $TIMEDIR/$TAGNAME-full-date`"
+  FILE=$BACKUPDIR/$TAGNAME-$DOW.tar.gz
   echo "Incremental backup ==> $FILE"
   cleanfile
   runbackup
+}
+
+# Monthly full backup
+function runinit () {
+  NEWER=""
+  FILE=$BACKUPDIR/bkp_$TAGNAME_$DATE.tar.gz
+  echo "Creating empty directory for $BACKUPDIR"
+  cleanfile
+  updatelastdate
 }
 
 checkdirs
@@ -164,6 +180,9 @@ case "$COMMAND" in
     ;;
   increm)
     runincrementalbkp
+    ;;
+  init)
+    runinit
     ;;
   *)
     showHelp
