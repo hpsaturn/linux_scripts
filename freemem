@@ -32,7 +32,7 @@ whilep () {
         printf "%s [buf:%07d][swapc:%07d][swpt:%07d] %s\r" "$msg" "$buffval" "$swapc" "$swapt" "$statuschar"
         sleep 0.03
     done
-    printf "                                                       \r"
+    printf "                                                                        \r"
 
 
 }
