@@ -29,12 +29,10 @@ whilep () {
         buffval=`cat /proc/meminfo | grep Buffers | awk '{print $2}'`
         swapc=`cat /proc/meminfo | grep SwapCached | awk '{print $2}'`
         swapt=`cat /proc/meminfo | grep SwapTotal | awk '{print $2}'`
-        printf "%s [buf:%07d][swapc:%07d][swpt:%07d] %s\r" "$msg" "$buffval" "$swapc" "$swapt" "$statuschar"
+        printf "%s [buf:%07d][swapc:%07d][swpt:%07d] %s        \r" "$msg" "$buffval" "$swapc" "$swapt" "$statuschar"
         sleep 0.03
     done
-    printf "                                                                        \r"
-
-
+    printf "                                                     \r"
 }
 
 StatusChar="/
