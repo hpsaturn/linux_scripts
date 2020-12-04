@@ -9,13 +9,13 @@ freecache () {
 }
 
 freeswap () {
-    msg="freeswap:"
+    msg="freeswap :"
     swapoff -a &
     pidswap=$!
 }
 
 enableswap () {
-    msg="freeswap:"
+    msg="freeswap :"
     swapon -a &
     pidswap=$!
 }
@@ -32,7 +32,7 @@ whilep () {
         printf "%s [buf:%07d][swapc:%07d][swpt:%07d] %s        \r" "$msg" "$buffval" "$swapc" "$swapt" "$statuschar"
         sleep 0.03
     done
-    printf "                                                     \r"
+    printf "                                                                                 \r"
 }
 
 StatusChar="/
