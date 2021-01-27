@@ -1,0 +1,25 @@
+#!/bin/bash
+
+input="$1"
+
+
+checkdeb () {
+  pkg=`echo $1|cut -f 1 -d '_'`
+  sha256=`apt-cache show $pkg|grep SHA256|head -1|cut -f 2 -d ' '`
+  csha256=`sha256sum $1|cut -f 1 -d ' '`
+  if [[ "$csha256" == "$sha256" ]] ;then
+    echo "$1: OK"
+  else
+    echo "$1: failed"
+  fi
+}
+
+if [ "$input" = "" ]; then
+  echo ":: Checking package integrity in current directory"
+  for p in *.deb; do
+    checkdeb $p
+  done
+else
+  checkdeb $1
+fi
+
