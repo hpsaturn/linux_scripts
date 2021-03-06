@@ -14,8 +14,10 @@ xrandr --output HDMI-2 --primary --auto
 sleep 1
 kill -usr1 `pgrep wmaker | tail -1` # restart wmaker
 sleep 1
-killall gkrellm
+killall gkrellm &
+sleep 1
 gkrellm -wm -g +1849+0 & 
+
 
 
 
