@@ -1,0 +1,7 @@
+#!/bin/bash
+
+BRANCH=`git rev-parse --abbrev-ref HEAD`
+COMMIT=`git rev-parse --short HEAD`
+REVISION=`git rev-list --count HEAD --all`
+
+printf "\nBRANCH:\t%s\nCOMMIT:\t%s\nREVCOD:\t%s\n\n" $BRANCH $COMMIT $REVISION

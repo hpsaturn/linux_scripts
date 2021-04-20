@@ -1,2 +1,2 @@
 #!/bin/bash
-w3m http://www.wordreference.com/es/translation.asp?tranword=$1
+w3m http://www.wordreference.com/es/translation.asp?tranword="$1"
