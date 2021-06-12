@@ -109,7 +109,7 @@ function checkdirs () {
 function runbackup () {
   echo "ignore file path ==> $IGNORE"
   echo "target dir  path ==> $TARGET"
-  $TAR $NEWER -zcf $FILE --exclude-from=$IGNORE $TARGET
+  $TAR $NEWER -zcf $FILE --exclude-from=$IGNORE "$TARGET"
 
   if [ "$SECONDARY" != "" ]; then
     echo "copy to secondary ==> $SECONDARY/$TAGNAME"
