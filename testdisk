@@ -1,6 +1,16 @@
 #!/bin/bash
 
 DATE=`date +%Y%m%d`
+SIZETEST=1024
+
+printSpeed () {
+  echo -n "time: "
+  echo -n $runtime
+  echo "s"
+  echo -n "speed aprox: "
+  echo -n $((($SIZETEST / $runtime)*1000))
+  echo "Mb/s"
+}
 
 echo ""
 echo "On current directory:"
@@ -8,15 +18,24 @@ echo ""
 echo "WRITE speed test.."
 echo ""
 
-time sudo sh -c "dd if=/dev/zero of=output$DATE bs=1M count=1024 && sync"
+tstart=`date +%s`
+sudo sh -c "dd if=/dev/zero of=output$DATE bs=1M count=$SIZETEST status=none && sync"
+tend=`date +%s`
+
+runtime=$(($tend-$tstart))
+printSpeed
 
 echo ""
 echo "READ speed test.."
 echo ""
 
+tstart=`date +%s`
 sudo sh -c "sync && echo 3 > /proc/sys/vm/drop_caches"
-time sudo sh -c "dd if=output$DATE of=/dev/null bs=1M"
-echo ""
+sudo sh -c "dd if=output$DATE of=/dev/null bs=1M status=none"
+tend=`date +%s`
+
+runtime=$(($tend-$tstart))
+printSpeed
 
 sudo rm output$DATE
 
