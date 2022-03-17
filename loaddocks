@@ -36,8 +36,8 @@ excute_process wmmemload "-as 50 -lc '#ff6666'"
 excute_process xbindkeys
 #excute_process xscreensaver
 excute_process xfce4-power-manager
-killall dropbox
-sleep .5
-excute_process dropboxd
+#killall dropbox
+#sleep .5
+#excute_process dropboxd
 xmodmap .xmodmaprc &> /dev/null &
 
