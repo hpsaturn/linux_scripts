@@ -4,7 +4,8 @@ xrandr --output eDP-1 --same-as HDMI-2 --auto
 sleep 2
 xrandr --output HDMI-2 --off
 sleep 1
-xrandr --output HDMI-1 --below eDP-1 --rotate right --auto
+#xrandr --output HDMI-1 --below eDP-1 --rotate right --auto
+xrandr --output HDMI-1 --below eDP-1 --rotate right --mode 1080x2160
 killall gkrellm
 sleep 1
 kill -usr1 `pgrep wmaker | tail -1` # restart wmaker
