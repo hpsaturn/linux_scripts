@@ -1,2 +1,2 @@
 #!/bin/bash
-systemd-run --unit=vscode --user --scope -p MemoryHigh=5G -p MemoryMax=6G -p MemorySwapMax=2G code
+systemd-run --unit=vscode --user --scope -p MemoryHigh=5G -p MemoryMax=8G -p MemorySwapMax=512M code

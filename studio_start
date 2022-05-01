@@ -1,2 +1,2 @@
 #!/bin/bash
-systemd-run --unit=studio --user --scope -p MemoryHigh=4G -p MemoryMax=6G -p MemorySwapMax=1G studio
+systemd-run --unit=studio --user --scope -p MemoryHigh=8G -p MemoryMax=10G -p MemorySwapMax=512M studio
