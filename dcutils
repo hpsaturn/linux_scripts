@@ -1,0 +1,13 @@
+dcrun () {
+    docker-compose rm -sf $1 && docker-compose up -d $1 
+}
+
+dcstop () {
+    docker-compose rm -sf $1 
+}
+
+dclogstop () {
+    ps aux | grep 'docker-compose logs -f' | grep -e $1 | awk '{print $2}' | while read -r pid ; do
+        echo "stopping $pid.."
+        sudo kill -9 $pid
+} 
