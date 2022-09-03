@@ -5,8 +5,7 @@ excute_process () {
   pid=`pidof $1`
   prm=`ps aux | grep -e "$1 $2"`
   if [ "$pid" == "" ] ; then
-    printf "\t\tfail\n"
-    printf  "executing\t%.7s\n" "$1"
+    printf "\t\trestarting\n"
     eval "$1 $2" &> /dev/null &
   elif [ "$prm" == "" ] ; then 
     printf "\t\tnot same\n"
@@ -19,6 +18,8 @@ excute_process () {
 }
 
 excute_process wmmon
+excute_process wmcore
+#excute_process wmsysmon
 excute_process wmtop
 excute_process wmnd "-i eth0"
 excute_process wmmon "-s"
@@ -38,6 +39,6 @@ excute_process xbindkeys
 excute_process xfce4-power-manager
 #killall dropbox
 #sleep .5
-#excute_process dropboxd
+excute_process dropboxd
 xmodmap .xmodmaprc &> /dev/null &
 
