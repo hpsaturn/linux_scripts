@@ -1,0 +1,48 @@
+#!/bin/bash
+
+showHelp() {
+printf "\r\nusage:\t\tinput output\r\n\n"
+printf "advanced: \tinput output margin\r\n"
+printf "\t\tinput output margin ypos_offset\r\n"
+printf "\t\tinput output margin ypos_offset end_trim\r\n\n"
+}
+
+if [ "$1" == "" ]; then
+  showHelp
+  exit 0
+fi
+
+# capture props
+height=`ffprobe -v error  -show_streams "$1" | grep 'height=' | head -n 1 | sed 's/height=//g'`
+duration=`ffprobe -v error  -show_streams "$1" | grep 'duration=' | head -n 1 | sed 's/duration=//g'`
+
+# top and bottom margins
+if [ "$3" = "" ]; then
+  subh=320  # default pixels substraction (subh/2 top and bottom)
+else
+  subh=$3
+fi
+
+new_height=$(($height - $subh))
+ypos=$(($subh / 2))
+
+# y-position increment
+if [ "$4" != "" ]; then
+  ypos=$(($ypos + $4))
+fi
+
+# trim
+if [ "$5" != "" ]; then
+  duration=`echo $duration $5 | awk '{print $1-$2}'`
+fi
+
+# cropping..
+ffmpeg -ss 0 -i "$1" -t $duration -filter:v "crop=iw:$new_height:0:$ypos" "$2"
+
+echo "output:"
+printf "\r\nheight:\t\t%i\r\n" "$new_height"
+printf "ypos:\t\t%i\r\n" "$ypos"
+printf "trim:\t\t%i\r\n" "$5"
+printf "duration:\t%f\r\n" "$duration"
+printf "outfile:\t%s\r\n\n" "$2"
+
