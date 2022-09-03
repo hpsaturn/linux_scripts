@@ -107,14 +107,19 @@ function checkdirs () {
 }
 
 function runbackup () {
-  echo "ignore file path ==> $IGNORE"
-  echo "target dir  path ==> $TARGET"
+  printf "ignore file path\t: %s\r\n" "$IGNORE" 
+  printf "target dir path  \t: %s\r\n" "$TARGET"
   $TAR $NEWER -zcf $FILE --exclude-from=$IGNORE "$TARGET"
 
   if [ "$SECONDARY" != "" ]; then
-    echo "copy to secondary ==> $SECONDARY/$TAGNAME"
+    printf "copy to secondary\t: %s\r\n" "$SECONDARY/$TAGNAME"
     cp -f $FILE $SECONDARY/$TAGNAME/
   fi
+
+  printf "ignored directories\t: "
+  echo `cat $IGNORE | wc -l`
+  printf "backup size \t\t: "
+  echo `du -hs $FILE`
 }
 
 function cleanfile () {
@@ -134,17 +139,17 @@ function updatelastdate () {
 function runfullbkp () {
   NEWER=""
   FILE=$BACKUPDIR/bkp_$TAGNAME_$DATE.tar.gz
-  echo "Monthly full backup ==> $FILE"
+  printf "monthly full backup\t: %s\r\n" "$FILE"
   cleanfile
   runbackup
-  updatelastdate
+  updatelastdate 
 }
 
 # Weekly full backup
 function runfullweekbkp () {
   NEWER=""
   FILE=$BACKUPDIR/$TAGNAME-$DOW.tar.gz
-  echo "Weekly full backup ==> $FILE"
+  printf "weekly full backup\t: %s\r\n" "$FILE"
   cleanfile
   runbackup
   updatelastdate
@@ -155,7 +160,7 @@ function runincrementalbkp () {
   # Get date of last full backup
   NEWER="--newer `cat $TIMEDIR/$TAGNAME-full-date`"
   FILE=$BACKUPDIR/$TAGNAME-$DOW.tar.gz
-  echo "Incremental backup ==> $FILE"
+  printf "incremental backup\t: %s\r\n" "$FILE"
   cleanfile
   runbackup
 }
@@ -164,7 +169,7 @@ function runincrementalbkp () {
 function runinit () {
   NEWER=""
   FILE=$BACKUPDIR/bkp_$TAGNAME_$DATE.tar.gz
-  echo "Creating empty directory for $BACKUPDIR"
+  echo "creating empty directory for $BACKUPDIR"
   cleanfile
   updatelastdate
 }
