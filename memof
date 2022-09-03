@@ -2,7 +2,7 @@
 
 cmd=$1
 
-mem=`ps -eo %mem,cmd --sort=-%mem | grep $cmd | awk -F ' ' '{sum += $1} END {print sum}'`
+mem=`ps -eo %mem,cmd --sort=-%mem | grep -v sysmemwatch | grep $cmd | awk -F ' ' '{sum += $cmd} END {print sum}'`
 memtotal=`cat /proc/meminfo | grep MemTotal | awk '{print $2}'`
 memcmd=`awk 'BEGIN{printf "%.2f\n", (("'$mem'"*"'$memtotal'")/100000)}'`
 
