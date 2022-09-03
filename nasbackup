@@ -1,0 +1,17 @@
+#!/bin/bash
+
+TARGET=/home/avp/memory/bkp
+
+full_bkp () {
+  printf "\nrunning full backup\t: %s\r\n" "$1"
+  backup full ${1} ${TARGET} ${2}
+}
+
+
+full_bkp 3dprint /home/avp/download/3dprint
+full_bkp src /home/avp/src
+full_bkp dropbox /home/avp/Dropbox
+full_bkp w3dmodels /home/avp/workspace/3dmodels
+#full_bkp admobilize /home/avp/workspace/admobilize
+full_bkp workspace /home/avp/workspace
+full_bkp home /home/avp
