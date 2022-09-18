@@ -1,12 +1,15 @@
 #!/bin/bash
 
 # Secondary display resolution
-W=1920       # Virtual display width
-H=1080       # Virtual display height
+Wrt=1920       # Virtual display width (top right)
+Hrt=1080       # Virtual display height
+Wrb=2160       # Virtual display width (bottom right)
+Hrb=1080       # Virtual display height
 
 # Primary display config
 P="HDMI-A-0"        #is the main screen, it can be calle eDP-1 or eDP1 depending on the driver
-O="DisplayPort-0"   #can be a virtual (recommended if possible) or real output accepted by the xog driver.
+Ort="DisplayPort-0" #can be a virtual (recommended if possible) or real output accepted by the xog driver.
+Orb="HDMI-A-1"      #can be a virtual (recommended if possible) or real output accepted by the xog driver.
                     #more info: https://wiki.archlinux.org/title/Extreme_Multihead#VNC
                     #Virtual device using evdi driver:
                     #sudo modprobe evdi initial_device_count=1
@@ -16,19 +19,28 @@ O="DisplayPort-0"   #can be a virtual (recommended if possible) or real output a
 PW=`xrandr --current | egrep '\*' | awk '{print $1;}' | cut -d x -f 1 | head -n 1`
 
 # Create the virtual display
-gtf $W $H 120 | sed '3q;d' | sed 's/Modeline//g' | xargs xrandr --newmode
-gtf $W $H 120 | sed '3q;d' | sed 's/Modeline//g' | awk '{print $1;}' | sed 's/^.\(.*\).$/\1/' | xargs xrandr --addmode $O
-gtf $W $H 120 | sed '3q;d' | sed 's/Modeline//g' | awk '{print $1;}' | sed 's/^.\(.*\).$/\1/' | xargs xrandr --output $O --right-of $P --mode
+gtf $Wrt $Hrt 120 | sed '3q;d' | sed 's/Modeline//g' | xargs xrandr --newmode
+gtf $Wrt $Hrt 120 | sed '3q;d' | sed 's/Modeline//g' | awk '{print $1;}' | sed 's/^.\(.*\).$/\1/' | xargs xrandr --addmode $Ort
+gtf $Wrt $Hrt 120 | sed '3q;d' | sed 's/Modeline//g' | awk '{print $1;}' | sed 's/^.\(.*\).$/\1/' | xargs xrandr --output $Ort --right-of $P --mode
 sleep 1
+gtf $Wrb $Hrb 120 | sed '3q;d' | sed 's/Modeline//g' | xargs xrandr --newmode
+gtf $Wrb $Hrb 120 | sed '3q;d' | sed 's/Modeline//g' | awk '{print $1;}' | sed 's/^.\(.*\).$/\1/' | xargs xrandr --addmode $Orb
+gtf $Wrb $Hrb 120 | sed '3q;d' | sed 's/Modeline//g' | awk '{print $1;}' | sed 's/^.\(.*\).$/\1/' | xargs xrandr --output $Orb --below $Ort --mode
+sleep 1
+kill -usr1 `pgrep wmaker | tail -1` # restarting window manager for it recognize the new setup
+sleep 0.5
 
 # Android device init
 # Forward the VNC port to your device and start a VNC session
 # adb reverse tcp:5900 tcp:5900 # uncomment for Android secondary display
 echo "Starting VNC server"
-x11vnc -display :0 -clip ${W}x${H}+${PW}+0 -repeat -forever -nonap -multiptr -noxfixes
-
-# When cancel this script, turn off the virtual display
-xrandr --output ${O} --off
+x11vnc -bg -display :0 -clip ${Wrt}x${Hrt}+${PW}+0 -rfbport 5900 -repeat -forever -nonap -multiptr -noxfixes
+sleep 1
+x11vnc -bg -display :0 -clip ${Wrb}x${Hrb}+${PW}+${Hrt} -rfbport 5901 -repeat -forever -nonap -multiptr -noxfixes
+#
+## When cancel this script, turn off the virtual display
+#xrandr --output ${Ort} --off
+#xrandr --output ${Orb} --off
 
 # On the old laptop please run:
 # vncviewer -shared -ViewOnly -Fullscreen <host ip>
