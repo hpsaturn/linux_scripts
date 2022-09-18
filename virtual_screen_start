@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Secondary display resolution
+W=1920       # Virtual display width
+H=1080       # Virtual display height
+
+# Primary display config
+P="HDMI-A-0"        #is the main screen, it can be calle eDP-1 or eDP1 depending on the driver
+O="DisplayPort-0"   #can be a virtual (recommended if possible) or real output accepted by the xog driver.
+                    #more info: https://wiki.archlinux.org/title/Extreme_Multihead#VNC
+                    #Virtual device using evdi driver:
+                    #sudo modprobe evdi initial_device_count=1
+                    #xrandr --setprovideroutputsource 1 0
+
+############# END SETUP ##############################################################
+PW=`xrandr --current | egrep '\*' | awk '{print $1;}' | cut -d x -f 1 | head -n 1`
+
+# Create the virtual display
+gtf $W $H 120 | sed '3q;d' | sed 's/Modeline//g' | xargs xrandr --newmode
+gtf $W $H 120 | sed '3q;d' | sed 's/Modeline//g' | awk '{print $1;}' | sed 's/^.\(.*\).$/\1/' | xargs xrandr --addmode $O
+gtf $W $H 120 | sed '3q;d' | sed 's/Modeline//g' | awk '{print $1;}' | sed 's/^.\(.*\).$/\1/' | xargs xrandr --output $O --right-of $P --mode
+sleep 1
+
+# Android device init
+# Forward the VNC port to your device and start a VNC session
+# adb reverse tcp:5900 tcp:5900 # uncomment for Android secondary display
+echo "Starting VNC server"
+x11vnc -display :0 -clip ${W}x${H}+${PW}+0 -repeat -forever -nonap -multiptr -noxfixes
+
+# When cancel this script, turn off the virtual display
+xrandr --output ${O} --off
+
+# On the old laptop please run:
+# vncviewer -shared -ViewOnly -Fullscreen <host ip>
