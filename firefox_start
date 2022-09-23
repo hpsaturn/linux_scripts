@@ -1,0 +1,2 @@
+#!/bin/bash
+systemd-run --unit=firefox --user --scope -p MemoryHigh=8G -p MemoryMax=9G -p MemorySwapMax=0 firefox

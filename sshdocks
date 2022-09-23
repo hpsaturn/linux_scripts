@@ -1,0 +1,17 @@
+#! /bin/bash
+
+wmmon &
+sleep 0.5
+wmcore &
+sleep 0.5
+wmsysmon &
+sleep 0.5
+wmtop &
+sleep 0.5
+wmnd -i eth0 &
+sleep 0.5
+#wmgtemp &
+#sleep 0.5
+wmmemload -as 50 -lc "#ff6666" &
+sleep 0.5
+

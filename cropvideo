@@ -1,10 +1,10 @@
 #!/bin/bash
 
 showHelp() {
-printf "\r\nusage:\t\tinput output\r\n\n"
-printf "advanced: \tinput output margin\r\n"
-printf "\t\tinput output margin ypos_offset\r\n"
-printf "\t\tinput output margin ypos_offset end_trim\r\n\n"
+  printf "\r\nusage:\t\tinput output\r\n\n"
+  printf "advanced: \tinput output margin\r\n"
+  printf "\t\tinput output margin ypos_offset\r\n"
+  printf "\t\tinput output margin ypos_offset end_trim\r\n\n"
 }
 
 if [ "$1" == "" ]; then

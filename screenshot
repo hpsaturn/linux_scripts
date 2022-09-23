@@ -1,0 +1,5 @@
+#!/bin/bash
+
+DATE=`date +%Y%m%d_%H%M%S`             # Date format AAAAMMDD
+
+gnome-screenshot -f ~/screenshots/screenshot$DATE.jpg "$1"

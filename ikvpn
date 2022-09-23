@@ -1,0 +1,48 @@
+#!/bin/bash
+###################################################################
+# @hpsaturn 2022
+###################################################################
+
+CONFIG="/etc/openvpn/ik.ovpn"
+AUTH="/etc/openvpn/credentials"
+
+show_help () {
+    printf "\n%s\n\n" "Available commands:"
+    printf "%s\t\t\t%s\n" "connect" "connect to VPN"
+    printf "%s\t\t%s\n\n" "disconnect"  "disconnect from VPN"
+}
+
+connect () {
+    if [[ -f $CONFIG && -f $AUTH ]]; then
+        echo "connecting to $CONFIG"
+        sudo openvpn --config $CONFIG --auth-user-pass $AUTH --daemon
+    else
+        echo "config or authentication files not found!!"
+        exit 1
+    fi 
+}
+
+disconnect () {
+  sudo killall openvpn
+}
+
+#########################################################
+######################## MAIN ###########################
+#########################################################
+
+case "$1" in
+  up)
+    connect
+    ;;
+  down)
+    disconnect
+    ;;
+  help)
+    show_help
+    ;;
+  *)
+    connect
+    ;;
+esac
+
+exit 0

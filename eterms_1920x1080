@@ -1,0 +1,34 @@
+#! /bin/sh
+# Terminales automaticas para Workspace Main
+
+#[first line]
+# Tiny Mysql
+Eterm --default-font-index 0  -H -f gold --scrollbar no --buttonbar 0 -c white -g 149x25+1+1 --trans --shade 30 -n mysql  &
+# Tiny PowerTop
+Eterm --default-font-index 0  -f lightblue --scrollbar no --buttonbar 0 -g 97x25+757+1 --trans --shade 30 -n powertop  &
+# Tiny messages
+Eterm --default-font-index 0  -H -f gold --scrollbar no --buttonbar 0 -c white -g 117x25+1253+1 --trans --shade 30 -n messages  &
+
+#[second line]
+# Midle main
+Eterm --default-font-index 1  -f violet --scrollbar no --buttonbar 0 -g 140x32+1+187 --trans --shade 30 -n main &
+# Midle bmon1
+Eterm --default-font-index 1  -f lightblue --scrollbar no --buttonbar 0 -g 81x32+852+187 --trans --shade 30 -n bmon1 &
+# Midle bmon2
+Eterm --default-font-index 1  -f orange --scrollbar no --buttonbar 0 -g 81x32+1349+187 --trans --shade 30 -n bmon2 &
+
+#[third line]
+# Midle home
+Eterm --default-font-index 1  -f gold --scrollbar no --buttonbar 0 -g 102x25+1+518 --trans --shade 30 -n home &
+# Midle work1
+Eterm --default-font-index 1  -f gold --scrollbar no --buttonbar 0 -g 101x25+624+518 --trans --shade 30 -n work1 &
+# Midle work2 
+Eterm --default-font-index 1  -f lightblue --scrollbar no --buttonbar 0 -g 100x25+1241+518 --trans --shade 30 -n work2 &
+
+#[quarter line]
+# Midle syslog
+Eterm --default-font-index 1  -H -f white --scrollbar no --buttonbar 0 -g 174x22+1+779 --trans --shade 30 -n syslog  &
+# Midle htop
+Eterm --default-font-index 1  -f lightgreen --scrollbar no --buttonbar 0 -g 131x22+1056+779 --trans --shade 30 -n htop &
+
+

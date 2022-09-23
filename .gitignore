@@ -78,3 +78,27 @@ target/
 
 #custom directories
 src/
+
+#link symbolics
+sysmemwatch
+minecraft
+krita
+kflash_gui
+connect
+cura
+esp32decode
+ikog
+wego
+arduino-cli
+kubectl
+geth
+logmon
+pinger
+speedtest
+wmcliphist
+wmtop
+wmwifi
+dropboxcli
+shorturl
+youtube-dl
+

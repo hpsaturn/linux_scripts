@@ -1,0 +1,2 @@
+#!/bin/bash
+systemd-run --unit=chrome --user --scope -p MemoryHigh=2G -p MemoryMax=3G -p MemorySwapMax=0G google-chrome
