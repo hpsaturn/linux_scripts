@@ -1,0 +1,20 @@
+#!/bin/bash
+###################################
+# Copyrigh 2021 @hpsaturn         #
+# Licensed GPLv3                  # 
+###################################
+
+xspid=`pidof xscreensaver`
+motionpid=`pidof motion`
+if [ -z "$xspid"  ]; then
+   xscreensaver &
+fi
+
+if [ -z "$motionpid"  ]; then
+   sleep 0.5
+   # motion &
+fi
+
+sleep 0.5
+
+xscreensaver-command -lock
