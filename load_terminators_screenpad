@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# topleft
+terminator --geometry 655x198+0+0 -p tinyfont --title "TopLeft" &
+sleep 0.2
+
+# syslog
+terminator --geometry 642x198+656+0 -p tinyfont --title "Syslog" &
+sleep 0.2
+
+# main
+#terminator --geometry 826x303+1+199  -p tinyfont --title "Main" &
+terminator --geometry 1297x502+1+199  -p tinyfont --title "Main" &
+sleep 0.2
+
+# bmon
+#terminator --geometry 470x303+828+199 -p tinyfont --title "Bmon" &
+#sleep 0.2
+
+# powertop
+#terminator --geometry 617x198+0+503 -p tinyfont --title "PowerTop" &
+#sleep 0.2
+
+# htop
+#terminator --geometry 680x198+618+503 -p tinyfont --title "HTop" &
+#sleep 0.2
+
+# saidar
+terminator --geometry 550x701+1299+0 -p tinyfont --title "System" &
+sleep 0.2
+
+# log0
+terminator --geometry 750x310+0+702 -p tinyfont --title "Log0" &
+sleep 0.2
+
+# log1
+terminator --geometry 1092x310+751+702 -p tinyfont --title "Log1" &
+sleep 0.2
+
+# sysmemwatch
+terminator --geometry 450x100+1385+1015 -p tinyfont --title "sysmemwatch" -x sysmemwatch -l -t 15 firefox code Telegram java chrome shotcut obs fan &
+
+# screenpad (glances)
+terminator --geometry 2160x1083+0+1081 -p FullScreen --title "screnpad" &
+sleep 0.2
+
+
