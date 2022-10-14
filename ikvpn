@@ -9,6 +9,8 @@ AUTH="/etc/openvpn/credentials"
 show_help () {
     printf "\n%s\n\n" "Available commands:"
     printf "%s\t\t\t%s\n" "connect" "connect to VPN"
+    printf "%s\t\t\t%s\n" "start" "connect to VPN"
+    printf "%s\t\t\t%s\n" "stop" "disconnect to VPN"
     printf "%s\t\t%s\n\n" "disconnect"  "disconnect from VPN"
 }
 
@@ -31,6 +33,12 @@ disconnect () {
 #########################################################
 
 case "$1" in
+  start)
+    connect
+    ;;
+  stop)
+    disconnect
+    ;;
   up)
     connect
     ;;
@@ -41,7 +49,7 @@ case "$1" in
     show_help
     ;;
   *)
-    connect
+    show_help
     ;;
 esac
 
