@@ -1,5 +1,12 @@
 #!/bin/bash
 
-DATE=`date +%Y%m%d_%H%M%S`             # Date format AAAAMMDD
+GNOME_PID=`pidof gnome-screenshot`
 
-gnome-screenshot -f ~/screenshots/screenshot$DATE.jpg "$1"
+if [ "$GNOME_PID" = "" ]; then 
+  DATE=`date +%Y%m%d_%H%M%S`             # Date 
+  echo "taking screenshot $DATE.jpg"
+  gnome-screenshot -f ~/screenshots/screenshot$DATE.jpg "$1"
+else
+  echo "screenshot instance is running ;|"
+fi
+
