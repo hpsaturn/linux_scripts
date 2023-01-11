@@ -1,12 +1,12 @@
 #!/bin/bash
 ####################################################################
-# ADB pull apk file from pattern (GPL license, author: @hpsaturn)
+# ADB apk signature (GPL license, author: @hpsaturn)
 #
-# Dependencies: android-tools-adb, dos2unix
+# Dependencies: android-tools-adb, dos2unix, adb, keytool
 #
 # Revision:
 # -----------------------------------------------------------------
-# 20171113 first version (extended from uninstall command)
+# 20230111 first version (extended from pmpull command)
 ####################################################################
 
 if [ "$1" = "" ]; then
