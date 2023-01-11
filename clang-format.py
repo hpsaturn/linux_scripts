@@ -35,7 +35,7 @@ import vim
 
 # set g:clang_format_path to the path to clang-format if it is not on the path
 # Change this to the full path if clang-format is not on the path.
-binary = 'clang-format-3.8'
+binary = 'clang-format'
 if vim.eval('exists("g:clang_format_path")') == "1":
   binary = vim.eval('g:clang_format_path')
 
