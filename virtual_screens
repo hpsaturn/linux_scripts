@@ -33,9 +33,9 @@ configScreens () {
   gtf $Wrt $Hrt 120 | sed '3q;d' | sed 's/Modeline//g' | awk '{print $1;}' | sed 's/^.\(.*\).$/\1/' | xargs xrandr --addmode $Ort
   gtf $Wrt $Hrt 120 | sed '3q;d' | sed 's/Modeline//g' | awk '{print $1;}' | sed 's/^.\(.*\).$/\1/' | xargs xrandr --output $Ort --right-of $P --mode
   sleep 1
-  gtf $Wrb $Hrb 120 | sed '3q;d' | sed 's/Modeline//g' | xargs xrandr --newmode
-  gtf $Wrb $Hrb 120 | sed '3q;d' | sed 's/Modeline//g' | awk '{print $1;}' | sed 's/^.\(.*\).$/\1/' | xargs xrandr --addmode $Orb
-  gtf $Wrb $Hrb 120 | sed '3q;d' | sed 's/Modeline//g' | awk '{print $1;}' | sed 's/^.\(.*\).$/\1/' | xargs xrandr --output $Orb --below $Ort --mode
+  #gtf $Wrb $Hrb 120 | sed '3q;d' | sed 's/Modeline//g' | xargs xrandr --newmode
+  #gtf $Wrb $Hrb 120 | sed '3q;d' | sed 's/Modeline//g' | awk '{print $1;}' | sed 's/^.\(.*\).$/\1/' | xargs xrandr --addmode $Orb
+  #gtf $Wrb $Hrb 120 | sed '3q;d' | sed 's/Modeline//g' | awk '{print $1;}' | sed 's/^.\(.*\).$/\1/' | xargs xrandr --output $Orb --below $Ort --mode
   sleep 1
   kill -usr1 `pgrep wmaker | tail -1` # restarting window manager for it recognize the new setup
   sleep 0.5
@@ -54,7 +54,7 @@ startVncServers () {
   echo "Starting VNC server"
   x11vnc -bg -display :0 -clip ${Wrt}x${Hrt}+${PW}+0 -rfbport 5900 -repeat -forever -nonap -multiptr -noxfixes
   sleep 1
-  x11vnc -bg -display :0 -clip ${Wrb}x${Hrb}+${PW}+${Hrt} -rfbport 5901 -repeat -forever -nonap -multiptr -noxfixes
+  #x11vnc -bg -display :0 -clip ${Wrb}x${Hrb}+${PW}+${Hrt} -rfbport 5901 -repeat -forever -nonap -multiptr -noxfixes
   #
   # On the old laptop please run:
   # vncviewer -shared -ViewOnly -Fullscreen <host ip>
