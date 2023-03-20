@@ -8,7 +8,7 @@ printSpeed () {
   echo -n $runtime
   echo "s"
   echo -n "speed aprox: "
-  echo -n $((($SIZETEST / $runtime)*1000))
+  echo -n $(($SIZETEST / $runtime))
   echo "Mb/s"
 }
 

@@ -1,0 +1,51 @@
+#!/bin/bash
+####################################################################
+# ADB apk signature (GPL license, author: @hpsaturn)
+#
+# Dependencies: android-tools-adb, dos2unix, adb, keytool
+#
+# Revision:
+# -----------------------------------------------------------------
+# 20230111 first version (extended from pmpull command)
+####################################################################
+
+if [ "$1" = "" ]; then
+  echo ""
+  echo "usage: pmpull pattern"
+  echo ""
+  exit 1
+fi
+
+pkg=`adb shell 'pm list packages -f' | sed -e 's/.*=//' | grep $1`
+cnt=`echo "$pkg" | wc -l`
+adb=`echo "$pkg" | sed -e 's/^/adb shell dumpsys package /'`
+cmd=`echo "$adb" | dos2unix`
+pkg=`echo "$pkg" | dos2unix`
+
+if [ "$pkg" = "" ]; then
+    echo "package not found!"
+    exit 1
+elif (( $cnt > 1 )); then
+    echo ""
+    echo "multiple packages found:"
+    echo ""
+    echo "$pkg"
+    echo ""
+    exit 1
+else
+    path=`bash -c "$cmd | grep path"`     # getting path
+    path=`echo $path | sed -e 's/.*://'`  # removing path label
+    if [ "$path" = "" ]; then
+        echo "apk not found for $pkg !!"
+        exit 1
+    fi
+    bash -c "adb pull $path"              # pull apk
+    mv -v base.apk "$pkg.apk"
+    echo ""
+    echo "Signature for $pkg:"
+    echo ""
+    keytool -printcert -jarfile "$pkg.apk"
+    rm "$pkg.apk"
+    exit 0
+fi
+

@@ -1,0 +1,10 @@
+#/usr/bin/bash
+
+sudo ss -x src "*/tmp/.X11-unix/*" |  # List X11 sessions
+  grep -Eo "[0-9]+\s*$" |             # extract the port number
+  while read port ; do                # For every connected port
+    sudo ss -p -x | grep -w $port |   #   Find the connecting process
+    grep -v X11-unix                  #   but ignore the x11 side
+  done | grep -Eo '".+"' |            # extract process names
+  sort | uniq -c |                    # Count the number of repeats
+  sort -rn                            # And sort them descending by count
