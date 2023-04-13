@@ -17,6 +17,7 @@ excute_process () {
   sleep 1
 }
 
+excute_process xcompmgr "-C -r1 -o 0.05"
 excute_process wmmon
 excute_process wmcore
 #excute_process wmsysmon
