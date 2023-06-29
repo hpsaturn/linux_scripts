@@ -1,5 +1,7 @@
 #!/bin/bash
-
+#######################################################
+# Keyboard watchdog. Restore xmodmaprc and intl variant
+#######################################################
 while true
 do
 	for dev in /sys/bus/usb/devices/*-*:*
