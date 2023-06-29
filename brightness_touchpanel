@@ -1,0 +1,52 @@
+#!/bin/bash
+
+BRIGHTNESS_MAX=2
+BRIGHTNESS_MIN=0
+BRIGHTNESS_INC=0.2
+BRIGHTNESS_DFL=0.8
+
+CURRENT_VALUE=/var/tmp/brightness_tpanel
+
+function validate() {
+  if (( $(echo "$BRIGHTNESS > $BRIGHTNESS_MAX" |bc -l) )); then
+    echo "exiting: max value $BRIGHTNESS_MAX reached"
+    echo $BRIGHTNESS_MAX > $CURRENT_VALUE  # workaround for possible recurrency issue
+    exit 1
+  fi
+  if (( $(echo "$BRIGHTNESS < $BRIGHTNESS_MIN" |bc -l) )); then
+    echo "exiting: min value $BRIGHTNESS_MIN reached"
+    exit 1
+  fi
+}
+
+function apply() {
+  xrandr --output HDMI-1 --gamma 0.9:0.9:0.9 --brightness $BRIGHTNESS
+  echo $BRIGHTNESS > $CURRENT_VALUE
+  echo "$BRIGHTNESS"
+}
+
+# Load current value or default
+if [[ -f "$CURRENT_VALUE" ]]
+then
+  BRIGHTNESS=`cat $CURRENT_VALUE`
+else
+  echo $BRIGHTNESS_DFL > $CURRENT_VALUE
+  BRIGHTNESS=$BRIGHTNESS_DFL
+fi
+
+# Calculation of new value
+if [ "$1" = "up" ]; then
+  BRIGHTNESS=`echo $BRIGHTNESS + $BRIGHTNESS_INC | bc` 
+fi
+if [ "$1" = "down" ]; then
+  BRIGHTNESS=`echo $BRIGHTNESS - $BRIGHTNESS_INC | bc` 
+fi
+
+
+########################################################
+#                      M A I N 
+########################################################
+
+validate
+apply
+
