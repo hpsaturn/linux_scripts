@@ -1,0 +1,20 @@
+#!/bin/bash
+
+while true
+do
+	for dev in /sys/bus/usb/devices/*-*:*
+	do
+		#If kbd is in
+		if [[ "$(cat $dev/bInterfaceClass)" == "03" && "$(cat $dev/bInterfaceProtocol)" == "01" ]]; then
+        layout="$(setxkbmap -query | grep -a variant)"
+        if [ -z "$layout" ]; then
+            echo -n "restoring keyboard settings.."
+            setxkbmap -variant intl
+            xmodmap ~/.xmodmaprc &2> /dev/null
+            echo "done"
+        fi
+    fi
+  done
+	sleep 5s
+done
+
