@@ -41,5 +41,6 @@ excute_process xfce4-power-manager
 #killall dropbox
 #sleep .5
 excute_process dropboxd
+excute_process kbcheckdeamon
 xmodmap .xmodmaprc &> /dev/null &
 
