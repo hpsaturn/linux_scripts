@@ -36,8 +36,8 @@ excute_process wmweather+ "-m -mmHg -cm -kph -tempc -metar-station EDDT -locatio
 excute_process wmcliphist "-s 0"
 excute_process wmmemload "-as 50 -lc '#ff6666'"
 excute_process xbindkeys
-#excute_process xscreensaver
 excute_process xfce4-power-manager
+excute_process gnome-screensaver
 #killall dropbox
 #sleep .5
 excute_process dropboxd
