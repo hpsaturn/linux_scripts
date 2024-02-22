@@ -1,6 +1,6 @@
 #! /bin/bash
 
-excute_process () {
+execute_process () {
   printf "checking\t%.7s" "$1"
   pid=`pidof $1`
   prm=`ps aux | grep -e "$1 $2"`
@@ -14,33 +14,33 @@ excute_process () {
   else
     printf "\t\tok\n"
   fi
-  sleep 1
+  sleep 0.3
 }
 
-excute_process xcompmgr "-C -r1 -o 0.05"
-excute_process wmmon
-excute_process wmcore
-#excute_process wmsysmon
-excute_process wmtop
-excute_process wmnd "-i eth0"
-excute_process wmmon "-s"
-excute_process gkrellm "-wm -g +1848+0" 
-#excute_process wmwifi "-i 30 -s -bl -tn"
-#excute_process wmtimer "-e sound_alert2 -c -t 00:00:00"
-#excute_process wmweather "--lcd -m -g  -s SKBO"
-#excute_process wmweather+ "-m -mmHg -cm -kph -tempc -metar-station LMML"
-#excute_process wmweather+ "-m -mmHg -cm -kph -tempc -metar-station SKBO"
-excute_process wmweather+ "-m -mmHg -cm -kph -tempc -metar-station EDDT -location '52.53N 13.43E'"
-#excute_process wmpinboard
-#excute_process gdeskcal "-x 1001 -y 877"
-excute_process wmcliphist "-s 0"
-excute_process wmmemload "-as 50 -lc '#ff6666'"
-excute_process xbindkeys
-#excute_process xscreensaver
-excute_process xfce4-power-manager
+execute_process wmmon
+execute_process wmcore
+#execute_process wmsysmon
+execute_process wmtop
+execute_process wmnd "-i eth0"
+execute_process wmmon "-s"
+execute_process gkrellm "-wm -g +1848+0" 
+#execute_process wmwifi "-i 30 -s -bl -tn"
+#execute_process wmtimer "-e sound_alert2 -c -t 00:00:00"
+#execute_process wmweather "--lcd -m -g  -s SKBO"
+#execute_process wmweather+ "-m -mmHg -cm -kph -tempc -metar-station LMML"
+#execute_process wmweather+ "-m -mmHg -cm -kph -tempc -metar-station SKBO"
+execute_process wmweather+ "-m -mmHg -cm -kph -tempc -metar-station EDDT -location '52.53N 13.43E'"
+#execute_process wmpinboard
+#execute_process gdeskcal "-x 1001 -y 877"
+execute_process wmcliphist "-s 0"
+execute_process wmmemload "-as 50 -lc '#ff6666'"
+execute_process xbindkeys
+#execute_process xscreensaver
+execute_process xfce4-power-manager
 #killall dropbox
 #sleep .5
-excute_process dropboxd
-excute_process kbcheckdeamon
+execute_process dropboxd
+execute_process kbcheckdeamon
 xmodmap .xmodmaprc &> /dev/null &
 
+execute_process xcompmgr "-C -r1 -o 0.05"
