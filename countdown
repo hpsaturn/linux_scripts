@@ -23,5 +23,9 @@ for i in `seq $SECONDS -1 0`; do
   figlet "$hrs : $min : $sec" ; sleep 1;
 done
 
-play -n synth .8 sine 4100 fade q 0.1 .3 0.1 repeat 3 &> /dev/null
+#play -n synth .8 sine 4100 fade q 0.1 .3 0.1 repeat 3 &> /dev/null
+for (( c=0; c<=2; c++)); do
+  mplayer -msglevel all=-1 /home/avp/sounds_gaim/protoss_message.mp3
+  sleep 0.5
+done
 

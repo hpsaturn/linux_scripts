@@ -35,12 +35,9 @@ execute_process wmweather+ "-m -mmHg -cm -kph -tempc -metar-station EDDT -locati
 execute_process wmcliphist "-s 0"
 execute_process wmmemload "-as 50 -lc '#ff6666'"
 execute_process xbindkeys
-#execute_process xscreensaver
 execute_process xfce4-power-manager
-#killall dropbox
-#sleep .5
+execute_process gnome-screensaver
 execute_process dropboxd
 execute_process kbcheckdeamon
-xmodmap .xmodmaprc &> /dev/null &
-
 execute_process xcompmgr "-C -r1 -o 0.05"
+xmodmap .xmodmaprc &> /dev/null &
