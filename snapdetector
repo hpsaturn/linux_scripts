@@ -32,8 +32,8 @@ function list_all () {
 
 function showhelp () {
   echo ""
-  echo "usage: aptsnap [pattern]"
-  echo "usage: aptsnap all"
+  echo "usage: snapdetector [pattern]"
+  echo "usage: snapdetector all"
   echo ""
 }
 
