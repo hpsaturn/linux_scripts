@@ -1,4 +1,16 @@
 #!/bin/bash
+####################################################################
+# Snap Package detector for apt packages: This utility attempts to 
+# identify possible Snap packages included in the apt repository.
+# Designed for users who prefer to avoid Snap packages on Ubuntu, 
+# for example :)
+#
+# @hpsaturn 2024.
+#
+# Revision:
+# -----------------------------------------------------------------
+# 20240419 first version
+####################################################################
 
 function detect_snap (){
     description=$(apt-cache show "$1")
