@@ -12,7 +12,7 @@ function detect_snap (){
 }
 
 function list_all () {
-    package_names=$(apt-cache pkgnames | sort)
+    package_names=$(apt-cache search "dummy package" | awk '{print $1}' | sort)
     for package in $package_names; do
         detect_snap "$package"
     done
