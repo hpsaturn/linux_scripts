@@ -1,0 +1,47 @@
+#!/bin/bash
+
+function detect_snap (){
+    description=$(apt-cache show "$1")
+
+    cond1=$(echo "$description" | grep 'dummy package')
+    cond2=$(echo "$description" | grep 'snap')
+
+    if [ "$cond1" != "" ] && [ "$cond2" != "" ] ; then
+        echo "Snap package found in: $1"
+    fi
+}
+
+function list_all () {
+    package_names=$(apt-cache pkgnames | sort)
+    for package in $package_names; do
+        detect_snap "$package"
+    done
+}
+
+function showhelp () {
+  echo ""
+  echo "usage: aptsnap [pattern]"
+  echo "usage: aptsnap all"
+  echo ""
+}
+
+if [ "$1" = "" ]; then
+    showhelp
+    exit 1
+fi
+
+case "$1" in
+  all)
+    list_all
+    ;;
+  help)
+    showhelp
+    ;;
+  -h)
+    showhelp
+    ;;
+  *)
+    detect_snap "$1"
+    ;;
+esac
+
