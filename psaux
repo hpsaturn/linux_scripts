@@ -1,4 +1,4 @@
 #!/bin/bash
 
 CMD="$1"
-ps aux | grep -i $CMD | awk '{printf "%s\t%7s\t\t%s\r\n", $1, $2, $11}'
+ps aux | grep -v psaux | grep -i $CMD | awk '{printf "%s\t%7s\t\t%s\r\n", $1, $2, $11}' | grep -v grep
