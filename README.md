@@ -21,10 +21,10 @@ Here some documentation of some scripts on this repository.
 ## Android Utils
 
 **adbmpull**: pull of many files with wildcards  
-**adbpackage**: filete with package using grep filter  
-**pmlist** : it search packages by pattern and it list packgaes  
-**pmclear**: it search package by pattern and it clear package data (be careful)  
-**pminfo** : it search package by pattern and it show package info  
+**adbpackage**: adb filter with package using grep filter  
+**pmlist** : search packages by pattern and it list packgaes  
+**pmclear**: search package by pattern and it clear package data (be careful)  
+**pminfo** : search package by pattern and it show package info  
 **pmpaste**: paste string to into Android device UI via adb  
 **pmpull** : fetch package by pattern  
 **pmscreenshot**: get screenshot to current directory  
@@ -77,7 +77,6 @@ Related scripts: nasbackup, bkpinflxdb.sh
 
 **vimperatorrc**: old vimperator config and functions  
 **resetttyusb**: reset corrupted serial consoles  
-**firefox_**: CONT and STOP signals to kill command over firefox pid process  
 **displayon/off**: utility for some TFT displays  
 **battery**: utility for rapsberryPi and SenserHat  
 **build_opencv_android**: utility for build opencv by architecture  
