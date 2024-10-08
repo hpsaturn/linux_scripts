@@ -73,7 +73,7 @@ Here some documentation of some scripts on this repository.
 | Script | Description |
 |:-------|-----------------------------------------------------------------------------|
 | **countdown** | terminal countdown clock alarm |
-| **deploy** | CanAirIO firmware deploy utility for generic projects |
+| **deploy** | CanAirIO firmware deploy utility for generic projects [^2] |
 | **firefox_** | CONT and STOP signals to kill command over firefox pid process |
 | **chrome_** | CONT and STOP signals to kill command over chrome pid process |
 | **code_** | CONT and STOP signals to kill command over vscode pid process |
@@ -120,3 +120,4 @@ Related scripts: nasbackup, bkpinflxdb.sh
 | **loadhotspot** | old hotspot implementation using iptables and NA|
 
 [^1]: A complete guide of this script, please enter [here](https://hpsaturn.com/virtual-serial-port/)
+[^2]: Utility extracted from [CanAirIO Project](https://github.com/kike-canaries/canairio_firmware)
