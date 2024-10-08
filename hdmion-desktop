@@ -1,0 +1,17 @@
+#!/bin/bash
+xrandr --output HDMI-A-0 --mode 1920x1080 --primary --auto
+sleep 1
+xrandr --output HDMI-A-0 --primary --auto
+sleep 1
+xrandr --output HDMI-A-1 --off
+sleep 1
+xrandr --output HDMI-A-1 --right-of HDMI-A-0 --noprimary --auto 
+sleep 2
+xrandr --output HDMI-A-0 --primary --auto
+sleep 1
+kill -usr1 `pgrep wmaker | tail -1` # restart wmaker
+sleep 1
+killall gkrellm &
+sleep 1
+gkrellm -wm -g +1849+0 & 
+
