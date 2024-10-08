@@ -13,7 +13,7 @@ Here some documentation of some scripts on this repository.
 | **psaux** | return only the main command and PID. Also search similars |
 | **testdisk** | basic HD or SSD benchmark |
 | **scanhosts** | scanner of devices in the local network or network segment |
-| **fanstatus** | Return the current RPM of the system fan |
+| **fanstatus** | return the current RPM of the system fan |
 | **bluetooth** | enable/disable basic rfkill |
 | **build_pkg** | utility for build Debian deb package using checkinstall |
 | **cpfromfile** | utility for copy files from file (listed files) |
@@ -23,8 +23,12 @@ Here some documentation of some scripts on this repository.
 | **list_x11_sockets** | list the current X11 sockets used of each app |
 | **pidgrep** | returns only the PIDs of all threads of app |
 | **verifydebfiles** | check signature hashes over deb packages |
+| **osdetect** | returns the platform architecture and OS name
 
-![freemem demo](images/freemem.gif)
+| |
+|:-------------------------------------------------------------------:|
+|![freemem demo](images/freemem.gif)|
+| fremem utility |
 
 ## Windowmaker Utilities
 
@@ -35,7 +39,7 @@ Here some documentation of some scripts on this repository.
 | **loadterminators** | loader of Terminator terminals on its fixed positions |
 | **btvol** | down/up Bluetooth sink volume utilities |
 | **brightness_touchpanel** | utility for touchpanel brightness (Asus dual screen laptop) |
-| **virtual_screens** | adding virtual screens using xrandr joined with xvnc |
+| **virtual_screens** | adding virtual screens using xrandr joined with xvnc [^1]|
 | **kben/kbes** | keyboard keymap toggle |
 | **kbcheckdeamon** | keyboard watchdog. Restore xmodmap config after inputs changes |
 
@@ -113,3 +117,5 @@ Related scripts: nasbackup, bkpinflxdb.sh
 | **cpustat** | utility for CPU stats |
 | **lanips** | returns the used IPs of LAN network |
 | **loadhotspot** | old hotspot implementation using iptables and NA|
+
+[^1]: A complete guide of this script, please enter [here](https://hpsaturn.com/virtual-serial-port/)
