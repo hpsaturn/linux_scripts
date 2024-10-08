@@ -23,7 +23,7 @@ Here some documentation of some scripts on this repository.
 | **list_x11_sockets** | list the current X11 sockets used of each app |
 | **pidgrep** | returns only the PIDs of all threads of app |
 | **verifydebfiles** | check signature hashes over deb packages |
-| **osdetect** | returns the platform architecture and OS name
+| **osdetect** | returns the platform architecture and OS name |
 
 | |
 |:-------------------------------------------------------------------:|
@@ -63,7 +63,7 @@ Here some documentation of some scripts on this repository.
 ## HDMI (xrandr utilities)  
 
 | Script | Description |
-|:-------|-----------------------------------------------------------------------------| 
+|:-------|-----------------------------------------------------------------------------|
 | **hdmion** | external HDMI to main screen, eDP like secondary right |
 | **hdmioff** | restore laptop screen |
 | **hdmion-desktop** | similar to hdmion |
@@ -71,12 +71,13 @@ Here some documentation of some scripts on this repository.
 ## Linux apps utilities
 
 | Script | Description |
-|:-------|-----------------------------------------------------------------------------| 
+|:-------|-----------------------------------------------------------------------------|
+| **countdown** | terminal countdown clock alarm |
+| **deploy** | CanAirIO firmware deploy utility for generic projects |
 | **firefox_** | CONT and STOP signals to kill command over firefox pid process |
 | **chrome_** | CONT and STOP signals to kill command over chrome pid process |
 | **code_** | CONT and STOP signals to kill command over vscode pid process |
 | **pidrun/pidstop** | CONT and STOP signals to kill an app |
-| **countdown** | terminal countdown clock alarm |
 
 ## Backup Utility
 
