@@ -5,7 +5,10 @@ wmcliphist
 repo
 pinger
 logmon
-
+arduino-lint
+esptool
+keymapp
+fritzing
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
