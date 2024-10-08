@@ -5,7 +5,7 @@ Here some documentation of some scripts on this repository.
 ## Linux system
 
 **freemem**: basic tool for free swap and caches, restore memory to after boot stage  
-**memof**: returns the summatary of all threads of an app  
+**memof**: returns the memory summary of all threads of an app  
 **usbreboot**: restart of corrupted USB interfaces of the OS  
 **snapdetector**: This try to identify possible Snap packages included in the apt repository  
 **psaux**: return only the main command and PID. Also search similars  
@@ -19,12 +19,15 @@ Here some documentation of some scripts on this repository.
 **ikvpn**: utility for manual operations over openvpn connection  
 **jsonlint**: local validation of a JSON file  
 **list_x11_sockets**: list the current X11 sockets used of each app  
+**pidgrep**: returns only the PIDs of all threads of app  
+**verifydebfiles**: check signature hashes over deb packages  
 
 ![freemem demo](images/freemem.gif)
 
 ## Windowmaker Utilities
 
 **loaddocks**: utility for load docks and apps called from GNUStel autostart  
+**sshdocs**: load some docks for ssh connection  
 **loadterminators**: loader of Terminator terminals on its fixed positions  
 **btvol**: down/up Bluetooth sink volume utilities  
 **brightness_touchpanel**: utility for touchpanel brightness (Asus dual screen laptop)  
@@ -58,6 +61,7 @@ Here some documentation of some scripts on this repository.
 **firefox_**: CONT and STOP signals to kill command over firefox pid process  
 **chrome_**: CONT and STOP signals to kill command over chrome pid process  
 **code_**: CONT and STOP signals to kill command over vscode pid process  
+**pidrun/pidstop**: CONT and STOP signals to kill an app  
 **countdown**: terminal countdown clock alarm  
 
 ## Backup Utility
