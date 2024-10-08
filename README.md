@@ -18,6 +18,8 @@ Here some documentation of some scripts on this repository.
 **build_pkg**: utility for build Debian deb package using checkinstall  
 **cpfromfile**: utility for copy files from file (listed files)  
 
+![freemem demo](images/freemem.gif)
+
 ## Android Utils
 
 **adbmpull**: pull of many files with wildcards  
