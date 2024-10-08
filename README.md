@@ -34,7 +34,7 @@ Here some documentation of some scripts on this repository.
 
 | Script | Description |
 |:-------|-----------------------------------------------------------------------------|
-| **loaddocks** | utility for load docks and apps called from GNUStel autostart |
+| **loaddocks** | utility for load docks and apps called from GNUStep autostart |
 | **sshdocs** | load some docks for ssh connection |
 | **loadterminators** | loader of Terminator terminals on its fixed positions |
 | **btvol** | down/up Bluetooth sink volume utilities |
