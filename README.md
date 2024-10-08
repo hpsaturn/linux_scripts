@@ -12,6 +12,7 @@ Here some documentation of some scripts on this repository.
 | **snapdetector** | this try to identify possible Snap packages included in the apt repository |
 | **psaux** | return only the main command and PID. Also search similars |
 | **testdisk** | basic HD or SSD benchmark |
+| **ddtest** | dd benchmark |
 | **scanhosts** | scanner of devices in the local network or network segment |
 | **fanstatus** | return the current RPM of the system fan |
 | **bluetooth** | enable/disable basic rfkill |
@@ -28,7 +29,7 @@ Here some documentation of some scripts on this repository.
 | |
 |:-------------------------------------------------------------------:|
 |![freemem demo](images/freemem.gif)|
-| fremem utility |
+| freemem utility |
 
 ## Windowmaker Utilities
 
@@ -117,7 +118,7 @@ Related scripts: nasbackup, bkpinflxdb.sh
 | **build_opencv_android** | utility for build opencv by architecture |
 | **cpustat** | utility for CPU stats |
 | **lanips** | returns the used IPs of LAN network |
-| **loadhotspot** | old hotspot implementation using iptables and NA|
+| **loadhotspot** | old hotspot implementation using iptables and NA |
 
 [^1]: A complete guide of this script, please enter [here](https://hpsaturn.com/virtual-serial-port/)
 [^2]: Utility extracted from [CanAirIO Project](https://github.com/kike-canaries/canairio_firmware)
