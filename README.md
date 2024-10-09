@@ -1,30 +1,30 @@
-# Linux tools and scripts
+# Linux Tools and Scripts
 
-Here some documentation of some scripts on this repository.
+This document provides an overview of various scripts available in this repository.
 
-## Linux system
+## Linux System Utilities
 
-| Script | Description |
-|:-------|-----------------------------------------------------------------------------|
-| **freemem** | basic tool for free swap and caches, restore memory to after boot stage |
-| **memof** | returns the memory summary of all threads of an app |
-| **usbreboot** | restart of corrupted USB interfaces of the OS |
-| **snapdetector** | this try to identify possible Snap packages included in the apt repository |
-| **psaux** | return only the main command and PID. Also search similars |
-| **testdisk** | basic HD or SSD benchmark |
-| **ddtest** | dd benchmark |
-| **scanhosts** | scanner of devices in the local network or network segment |
-| **fanstatus** | return the current RPM of the system fan |
-| **bluetooth** | enable/disable basic rfkill |
-| **build_pkg** | utility for build Debian deb package using checkinstall |
-| **cpfromfile** | utility for copy files from file (listed files) |
-| **gitrev** | return revision and version names of the current repository |
-| **ikvpn** | utility for manual operations over openvpn connection |
-| **jsonlint** | local validation of a JSON file |
-| **list_x11_sockets** | list the current X11 sockets used of each app |
-| **pidgrep** | returns only the PIDs of all threads of app |
-| **verifydebfiles** | check signature hashes over deb packages |
-| **osdetect** | returns the platform architecture and OS name |
+| Script            | Description                                                                 |
+|:------------------|-----------------------------------------------------------------------------|
+| **freemem**       | Basic tool for freeing swap and caches; restores memory to the state after boot. |
+| **memof**         | Returns a memory summary of all threads of an application.                 |
+| **usbreboot**     | Restarts corrupted USB interfaces of the operating system.                 |
+| **snapdetector**  | Identifies possible Snap packages included in the APT repository.          |
+| **psaux**         | Returns only the main command and PID; also searches for similar processes.|
+| **testdisk**      | Basic hard drive or SSD benchmark.                                         |
+| **ddtest**        | Benchmarking tool for `dd`.                                                |
+| **scanhosts**     | Scans devices in the local network or network segment.                     |
+| **fanstatus**     | Returns the current RPM of the system fan.                                 |
+| **bluetooth**     | Enables/disables basic rfkill for Bluetooth.                               |
+| **build_pkg**     | Utility for building Debian `.deb` packages using `checkinstall`.          |
+| **cpfromfile**    | Utility for copying files from a specified list.                          |
+| **gitrev**        | Returns revision and version names of the current repository.             |
+| **ikvpn**         | Utility for manual operations over an OpenVPN connection.                 |
+| **jsonlint**      | Validates a JSON file locally.                                            |
+| **x11sockets**    | Lists the current X11 sockets used by each application.                   |
+| **pidgrep**       | Returns only the PIDs of all threads of an application.                   |
+| **verifydebfiles**| Checks signature hashes of Debian packages.                               |
+| **osdetect**      | Returns the platform architecture and OS name.                            |
 
 | |
 |:-------------------------------------------------------------------:|
@@ -33,52 +33,52 @@ Here some documentation of some scripts on this repository.
 
 ## Windowmaker Utilities
 
-| Script | Description |
-|:-------|-----------------------------------------------------------------------------|
-| **loaddocks** | utility for load docks and apps called from GNUStep autostart |
-| **sshdocs** | load some docks for ssh connection |
-| **loadterminators** | loader of Terminator terminals on its fixed positions |
-| **btvol** | down/up Bluetooth sink volume utilities |
-| **brightness_touchpanel** | utility for touchpanel brightness (Asus dual screen laptop) |
-| **virtual_screens** | adding virtual screens using xrandr joined with xvnc [^1]|
-| **kben/kbes** | keyboard keymap toggle |
-| **kbcheckdeamon** | keyboard watchdog. Restore xmodmap config after inputs changes |
+| Script                | Description                                                                 |
+|:----------------------|-----------------------------------------------------------------------------|
+| **loaddocks**         | Loads docks and applications called from GNUStep autostart.                |
+| **sshdocs**           | Loads specific docks for SSH connections.                                   |
+| **loadterminators**   | Loads Terminator terminals in fixed positions.                              |
+| **btvol**             | Utility for adjusting Bluetooth sink volume.                                |
+| **brightness_touchpanel** | Utility for adjusting touch panel brightness (Asus dual-screen laptop). |
+| **virtual_screens**   | Adds virtual screens using `xrandr` combined with `xvnc` [^1].            |
+| **kben/kbes**        | Toggles keyboard keymap.                                                   |
+| **kbcheckdeamon**     | Keyboard watchdog; restores `xmodmap` config after input changes.         |
 
-## Android Utils
+## Android Utilities
 
-| Script | Description |
-|:-------|-----------------------------------------------------------------------------|
-| **adbmpull** | pull of many files with wildcards |
-| **adbpackage** | adb filter with package using grep filter |
-| **pmlist**  | search packages by pattern and it list packgaes |
-| **pmclear** | search package by pattern and it clear package data (be careful) |
-| **pminfo**  | search package by pattern and it show package info |
-| **pmpaste** | paste string to into Android device UI via adb |
-| **pmpull**  | fetch package by pattern |
-| **pmscreenshot** | get screenshot to current directory |
-| **pmstart** | launch default activity |
-| **pmstop**  | stop package by pattern |
-| **pmsignature** | retrieve the package signature |
-| **pmuninstall** | uninstall package by pattern |
-  
-## HDMI (xrandr utilities)  
+| Script                | Description                                                                 |
+|-----------------------|-----------------------------------------------------------------------------|
+| **adbmpull**          | Pulls multiple files using wildcards.                                      |
+| **adbpackage**        | Filters ADB output by package using `grep`.                                |
+| **pmlist**            | Searches for packages by pattern and lists them.                           |
+| **pmclear**           | Searches for a package by pattern and clears its data (use with caution).  |
+| **pminfo**            | Searches for a package by pattern and displays its information.            |
+| **pmpaste**           | Pastes a string into the Android device UI via ADB.                       |
+| **pmpull**            | Fetches a package by pattern.                                              |
+| **pmscreenshot**      | Takes a screenshot and saves it to the current directory.                 |
+| **pmstart**           | Launches the default activity of a package.                                |
+| **pmstop**            | Stops a package by pattern.                                               |
+| **pmsignature**       | Retrieves the package signature.                                           |
+| **pmuninstall**       | Uninstalls a package by pattern.                                          |
 
-| Script | Description |
-|:-------|-----------------------------------------------------------------------------|
-| **hdmion** | external HDMI to main screen, eDP like secondary right |
-| **hdmioff** | restore laptop screen |
-| **hdmion-desktop** | similar to hdmion |
-  
-## Linux apps utilities
+## HDMI (xrandr Utilities)
 
-| Script | Description |
-|:-------|-----------------------------------------------------------------------------|
-| **countdown** | terminal countdown clock alarm |
-| **deploy** | CanAirIO firmware deploy utility for generic projects [^2] |
-| **firefox_** | CONT and STOP signals to kill command over firefox pid process |
-| **chrome_** | CONT and STOP signals to kill command over chrome pid process |
-| **code_** | CONT and STOP signals to kill command over vscode pid process |
-| **pidrun/pidstop** | CONT and STOP signals to kill an app |
+| Script                | Description                                                               |
+|-----------------------|---------------------------------------------------------------------------|
+| **hdmion**            | Activates external HDMI as the main screen, with eDP as secondary right. |
+| **hdmioff**           | Restores the laptop screen.                                              |
+| **hdmion-desktop**    | Similar functionality to `hdmion`.                                       |
+
+## Linux Application Utilities
+
+| Script                | Description                                                               |
+|-----------------------|---------------------------------------------------------------------------|
+| **countdown**         | Terminal countdown clock alarm.                                          |
+| **deploy**            | CanAirIO firmware deployment utility for generic projects [^2].         |
+| **firefox_**          | Sends CONT and STOP signals to manage the Firefox process.               |
+| **chrome_**           | Sends CONT and STOP signals to manage the Chrome process.                |
+| **code_**             | Sends CONT and STOP signals to manage the VSCode process.                |
+| **pidrun/pidstop**    | Sends CONT and STOP signals to manage an application.                    |
 
 ## Backup Utility
 
@@ -109,16 +109,16 @@ Related scripts: nasbackup, bkpinflxdb.sh
 
 ## Deprecated
 
-| Script | Description |
-|:-------|-----------------------------------------------------------------------------|
-| **vimperatorrc** | old vimperator config and functions |
-| **resetttyusb** | reset corrupted serial consoles |
-| **displayon/off** | utility for some TFT displays |
-| **battery** | utility for rapsberryPi and SenserHat |
-| **build_opencv_android** | utility for build opencv by architecture |
-| **cpustat** | utility for CPU stats |
-| **lanips** | returns the used IPs of LAN network |
-| **loadhotspot** | old hotspot implementation using iptables and NA |
+| Script                     | Description                                                            |
+|----------------------------|------------------------------------------------------------------------|
+| **vimperatorrc**           | Old Vimperator configuration and functions.                            |
+| **resetttyusb**            | Resets corrupted serial consoles.                                      |
+| **displayon/off**          | Utility for controlling some TFT displays.                             |
+| **battery**                | Utility for Raspberry Pi and Sense HAT.                                |
+| **build_opencv_android**   | Utility for building OpenCV by architecture.                           |
+| **cpustat**                | Utility for monitoring CPU statistics.                                 |
+| **lanips**                 | Returns the used IPs in the LAN network.                               |
+| **loadhotspot**            | Old hotspot implementation using `iptables` and Network Addressing.    |
 
-[^1]: A complete guide of this script, please enter [here](https://hpsaturn.com/virtual-serial-port/)
-[^2]: Utility extracted from [CanAirIO Project](https://github.com/kike-canaries/canairio_firmware)
+[^1]: For a complete guide to this script, please visit [here](https://hpsaturn.com/virtual-serial-port/).  
+[^2]: Utility extracted from the [CanAirIO Project](https://github.com/kike-canaries/canairio_firmware).
