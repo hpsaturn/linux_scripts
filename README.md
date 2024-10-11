@@ -59,6 +59,7 @@ This document provides an overview of various scripts available in this reposito
 | **pmstart**           | Launches the default activity of a package.                                |
 | **pmstop**            | Stops a package by pattern.                                               |
 | **pmsignature**       | Retrieves the package signature.                                           |
+| **pmload**            | Utility to list and load apks in the current directory                    |
 | **pmuninstall**       | Uninstalls a package by pattern.                                          |
 
 ## HDMI (xrandr Utilities)
