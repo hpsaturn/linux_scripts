@@ -20,7 +20,7 @@ execute_process () {
 execute_process wmmon
 execute_process wmcore
 #execute_process wmsysmon
-execute_process wmtop
+execute_process wmtop "-c lxtask"
 execute_process wmnd "-i eth0"
 execute_process wmmon "-s"
 execute_process gkrellm "-wm -g +1848+0" 
@@ -40,4 +40,5 @@ execute_process gnome-screensaver
 execute_process dropboxd
 execute_process kbcheckdeamon
 execute_process xcompmgr "-C -r1 -o 0.05"
+
 xmodmap .xmodmaprc &> /dev/null &
