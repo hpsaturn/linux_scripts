@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SECONDS=$1
+countdown_time=$1
 
 hrs=0
 min=0
@@ -17,10 +17,11 @@ convert_seconds () {
   hrs=$(echo $hrs | awk '{printf("%02d", $1)}')
 }
 
-for i in `seq $SECONDS -1 0`; do  
+while [ $SECONDS -le $countdown_time ]; do
   clear
-  convert_seconds $i
-  figlet "$hrs : $min : $sec" ; sleep 1;
+  remaining=$((countdown_time - SECONDS))
+  convert_seconds $remaining
+  figlet "$hrs : $min : $sec" ; sleep 0.3;
 done
 
 #play -n synth .8 sine 4100 fade q 0.1 .3 0.1 repeat 3 &> /dev/null
