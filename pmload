@@ -1,0 +1,75 @@
+#!/bin/bash
+#
+# pmload utility
+# ==============
+# GPL license
+# author: @hpsaturn 2024
+#
+# This load any apk that is founded in the current directory recursive.
+
+outputdir=.
+tempdir=.
+pattern="*.apk"
+tempapp=tmp.apk
+
+remove_tmp() {
+  rm $tempdir/$tempapp
+}
+
+copy_apk () {
+  apk="$(basename $1)"
+  cp "$1" $tempdir/$tempapp
+  echo "loading APK: $apk"
+}
+
+get_file_list () {
+  file_list=()
+  for path in $1; do
+    file=$(basename ${path})
+    file_list+=( $file )
+  done
+
+  PS3="Enter a number: "
+
+  select apk in "${file_list[@]}"; do
+    for item in "${file_list[@]}"; do
+    if [[ "$item" == "$apk" ]]; then
+      echo "$apk"
+      break 2
+    fi
+    done
+  done
+}
+
+load_from_dir () {
+  if [ -d "$outputdir" ]; then
+    apkpath=`find $outputdir -name "${pattern}"`
+    cnt=`echo "$apkpath" | wc -l`
+    if [ "$apkpath" = "" ]; then
+      echo "error: missing apk build"
+      exit 1
+    elif (( $cnt > 1 )); then
+      echo ""
+      echo "Multiple packages found:"
+      echo ""
+      apk_selected=$(get_file_list "$apkpath")
+      echo ""
+      echo "$apk_selected"
+      apkpath=`find $outputdir -name "${pattern}" | fgrep $apk_selected`
+    fi
+    copy_apk $apkpath 
+  else
+    echo "error: wrong project directory"
+    exit 1
+  fi
+}
+
+if [ "$1" == "" ]; then
+  load_from_dir
+else
+  copy_apk $1
+fi
+
+adb install -r -d -t --no-streaming $tempdir/$tempapp
+remove_tmp
+
