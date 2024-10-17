@@ -81,6 +81,8 @@ This document provides an overview of various scripts available in this reposito
 | **code_**             | Sends CONT and STOP signals to manage the VSCode process.                |
 | **pidrun/pidstop**    | Sends CONT and STOP signals to manage an application.                    |
 
+![Countdown Demo](images/countdown.gif)
+
 ## Backup Utility
 
 Full and incremental backup script.

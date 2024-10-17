@@ -24,13 +24,20 @@ play_sound () {
   done
 }
 
+cstart=`date +%H:%M:%S.%3N`
+countdown_time=$((countdown_time-1))
+
 while [ $SECONDS -le $countdown_time ]; do
   clear
   convert_seconds $((countdown_time - SECONDS))
   figlet " $hrs : $min : $sec" ; sleep 0.3;
 done
 
-printf "Elapsed Time: %i secs\r\n\r\n" $((SECONDS-1))
+cstop=`date +%H:%M:%S.%3N`
+
+printf " Countdown start\t: %s\r\n" $cstart
+printf " Countdown stop \t: %s\r\n" $cstop
+printf " Elapsed time   \t: %i secs\r\n\r\n" $((SECONDS))
 
 if [ "$2" == "" ]; then
   play_sound
