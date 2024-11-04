@@ -80,6 +80,7 @@ This document provides an overview of various scripts available in this reposito
 | **chrome_**           | Sends CONT and STOP signals to manage the Chrome process.                |
 | **code_**             | Sends CONT and STOP signals to manage the VSCode process.                |
 | **pidrun/pidstop**    | Sends CONT and STOP signals to manage an application.                    |
+| **kermit48**          | Utility that launch Kermit preconfigured for Hp48g calculators.          |
 
 ![Countdown Demo](images/countdown.gif)
 
