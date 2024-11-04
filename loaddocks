@@ -2,7 +2,7 @@
 
 execute_process () {
   printf "checking\t%.7s" "$1"
-  pid=`pidof $1`
+  pid=`pgrep -f $1`
   prm=`ps aux | grep -e "$1 $2"`
   if [ "$pid" == "" ] ; then
     printf "\t\trestarting\n"
