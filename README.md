@@ -63,6 +63,8 @@ This document provides an overview of various scripts available in this reposito
 | **pmload**            | Utility to list and load apks in the current directory                     |
 | **pmuninstall**       | Uninstalls a package by pattern.                                           |
 
+![pmvideo android tool demo](images/pmvideo.gif)
+
 ## HDMI (xrandr Utilities)
 
 | Script                | Description                                                               |

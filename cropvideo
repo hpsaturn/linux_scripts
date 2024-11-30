@@ -37,12 +37,14 @@ if [ "$5" != "" ]; then
 fi
 
 # cropping..
-ffmpeg -ss 0 -i "$1" -t $duration -filter:v "crop=iw:$new_height:0:$ypos" "$2"
+echo "params: -ss 0 -i \"$1\" -t $duration -filter:v \"crop=iw:$new_height:0:$ypos\" -crf 29 -preset slower \"$2\""
+ffmpeg -ss 0 -i "$1" -t $duration -filter:v "crop=iw:$new_height:0:$ypos" -crf 29 -preset slower "$2"
 
 echo "output:"
 printf "\r\nheight:\t\t%i\r\n" "$new_height"
 printf "ypos:\t\t%i\r\n" "$ypos"
 printf "trim:\t\t%i\r\n" "$5"
 printf "duration:\t%f\r\n" "$duration"
-printf "outfile:\t%s\r\n\n" "$2"
+printf "outfile:\t%s\r\n" "$2"
+printf "crfprest:\t%s\r\n\n" "-crf 29 -preset slower"
 
