@@ -1,0 +1,78 @@
+#!/bin/bash
+####################################################################
+# adb video capture utility
+# @hpsaturn 2024
+####################################################################
+
+DATE=`date +%Y%m%d-%H%M%S`
+NAME=capture-${DATE}.mp4
+FILE=/sdcard/${NAME}
+
+if [ "$1" = "help" ] || [ "$1" = "--help" ]; then
+  echo ""
+  echo "usage: pmvideo"
+  echo "output: ./capture-YYYYDDMM_HHMMSS.mp4"
+  echo ""
+  exit 1
+fi
+
+capture_video () {
+  msg="capturing $NAME"
+  adb shell screenrecord $FILE &
+  sleep 0.5
+  pidcapture=$!
+}
+
+hrs=0
+min=0
+sec=0
+
+convert_seconds () {
+  min=$(($1/60))
+  sec=$(($1-($min*60)))
+  hrs=$(($min/60))
+  min=$(($min%60))
+
+  sec=$(echo $sec | awk '{printf("%02d", $1)}')
+  min=$(echo $min | awk '{printf("%02d", $1)}')
+  hrs=$(echo $hrs | awk '{printf("%02d", $1)}')
+}
+
+function ctrl_c() {
+  kill $1 2> /dev/null
+  sleep 0.5
+  adb pull $FILE
+  final_size=`du -hs $NAME | awk '{print $1}'`
+  convert_seconds $SECONDS
+  final_time="$hrs:$min:$sec"
+  printf "file\t: %s\r\n" "$NAME"
+  printf "size\t: %s\r\n" $final_size
+  printf "time\t: %s\r\n" $final_time
+  adb shell rm $FILE
+}
+
+StatusChar="/
+|
+\
+-"
+
+getchar(){
+    denomination=($StatusChar)
+    num_denominations=${#denomination[*]}
+    statuschar="${denomination[$((RANDOM%num_denominations))]}"
+}
+
+whilep () {
+  while kill -0 $1 2> /dev/null; do
+    trap 'ctrl_c $1' INT
+    getchar
+    vsize=`adb shell du -s $FILE | awk '{print $1}'`
+    printf "%s [size:%08d] [duration: %05d] %s        \r" "$msg" "$vsize" "$SECONDS" "$statuschar"
+    sleep 0.03
+  done
+  printf "                                                                                 \r"
+}
+
+capture_video
+whilep $pidcapture
+
