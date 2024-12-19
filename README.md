@@ -72,6 +72,7 @@ This document provides an overview of various scripts available in this reposito
 | **hdmion**            | Activates external HDMI as the main screen, with eDP as secondary right. |
 | **hdmioff**           | Restores the laptop screen.                                              |
 | **hdmion-desktop**    | Similar functionality to `hdmion`.                                       |
+| hdmion-below      | Two screens. The laptop screen is below of main screen                   |
 
 ## Linux Application Utilities
 
