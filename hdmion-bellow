@@ -1,0 +1,30 @@
+#!/bin/bash
+#xrandr --output HDMI-1 --off
+#xrandr --output HDMI-1 --right-of eDP --auto
+#sleep 1
+
+
+xrandr --output HDMI-A-0 --same-as eDP --mode 1920x1080 --primary --auto
+sleep 1
+xrandr --output HDMI-A-0 --primary --auto
+sleep 1
+xrandr --output eDP --off
+sleep 1
+xrandr --output eDP --below HDMI-A-0 --noprimary --auto 
+sleep 1
+#xrandr --output HDMI-1 --off
+#xrandr --output HDMI-1 --below eDP --rotate right --auto
+#xrandr --output HDMI-1 --below eDP --rotate right --mode 1080x2160
+#xrandr --output DisplayPort-1 --below eDP --auto
+sleep 2
+xrandr --output HDMI-A-0 --primary --mode 1920x1080 --auto
+sleep 1
+kill -usr1 `pgrep wmaker | tail -1` # restart wmaker
+sleep 1
+killall gkrellm &
+sleep 1
+gkrellm -wm -g +1849+0 & 
+
+
+
+
