@@ -1,0 +1,22 @@
+# **************************************************
+# @hpsaturn Copyright (C) 2016-2024
+# This file is part of Linux Scripts repo
+# https://github.com/hpsaturn/linux_scripts 
+# **************************************************
+
+xrandr --output HDMI-A-0 --same-as eDP --mode 1920x1080 --primary --auto
+sleep 1
+xrandr --output HDMI-A-0 --primary --auto
+sleep 1
+xrandr --output eDP --off
+sleep 1
+xrandr --output eDP --below HDMI-A-0 --noprimary --auto 
+sleep 2
+xrandr --output HDMI-A-0 --primary --mode 1920x1080 --auto
+sleep 1
+kill -usr1 `pgrep wmaker | tail -1` # restart wmaker
+sleep 1
+killall gkrellm &
+sleep 1
+gkrellm -wm -g +1849+0 & 
+
