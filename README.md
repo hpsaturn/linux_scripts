@@ -62,6 +62,7 @@ This document provides an overview of various scripts available in this reposito
 | **pmsignature**       | Retrieves the package signature.                                           |
 | **pmload**            | Utility to list and load apks in the current directory                     |
 | **pmuninstall**       | Uninstalls a package by pattern.                                           |
+| **pmmediack**         | Force media scan trigger (for instance, when you push videos via adb)      |
 
 ![pmvideo android tool demo](images/pmvideo.gif)
 

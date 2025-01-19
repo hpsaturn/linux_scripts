@@ -1,0 +1,28 @@
+#!/bin/bash
+# **************************************************
+# @hpsaturn Copyright (C) 2016-2024
+# This file is part of Linux Scripts repo
+# https://github.com/hpsaturn/linux_scripts 
+# **************************************************
+#
+# Utility to trigger scan media on Android, for instance
+# when you push some video or photos via adb
+
+# force trigger (new devices)
+update_media () {
+  adb shell content call --method scan_volume --uri content://media --arg external_primary &> /dev/null
+}
+
+# force trigger on specific path (deprecated)
+update_media_path () {
+  adb shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://$1 &> /dev/null
+}
+
+if [[ "$1" != "" ]]
+then
+  update_media
+else
+  update_media_path $1
+  update_media   
+fi
+
