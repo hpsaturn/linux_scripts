@@ -53,6 +53,7 @@ This document provides an overview of various scripts available in this reposito
 | **pmlist**            | Searches for packages by pattern and lists them.                           |
 | **pmclear**           | Searches for a package by pattern and clears its data (use with caution).  |
 | **pminfo**            | Searches for a package by pattern and displays its information.            |
+| **pmversion**         | Retrieve device versions name info. With pattern parameter also for pkgs   |
 | **pmpaste**           | Pastes a string into the Android device UI via ADB.                        |
 | **pmpull**            | Fetches a package by pattern.                                              |
 | **pmscreenshot**      | Takes a screenshot and saves it to the current directory.                  |

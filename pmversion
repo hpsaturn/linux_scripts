@@ -1,0 +1,54 @@
+#!/bin/bash
+####################################################################
+# ADB info apk (GPL license, author: @hpsaturn)
+#
+# Dependencies: android-tools-adb, dos2unix
+#
+# Revision:
+# -----------------------------------------------------------------
+# 20250129 first version (extended from pminfo command)
+####################################################################
+
+prop1=ro.build.fingerprint
+prop2=ro.build.display.id
+
+get_device_version () {
+  echo "device version:"
+  adb shell getprop $prop1
+  adb shell getprop $prop2
+}
+
+if [ "$1" = "" ]; then
+  echo ""
+  echo "usage: pmversion pattern"
+  echo ""
+  get_device_version 
+  echo ""
+  exit 1
+fi
+
+pkg=`adb shell 'pm list packages -f' | sed -e 's/.*=//' | grep $1`
+cnt=`echo "$pkg" | wc -l`
+adb=`echo "$pkg" | sed -e 's/^/adb shell dumpsys package /'`
+cmd=`echo "$adb" | dos2unix`
+pkg=`echo "$pkg" | dos2unix`
+
+if [ "$pkg" = "" ]; then
+    echo "package not found!"
+    exit 1
+elif (( $cnt > 1 )); then
+    echo ""
+    echo "multiple packages found:"
+    echo ""
+    echo "$pkg"
+    echo ""
+    exit 1
+else
+    echo ""
+    echo "$pkg version:"
+    bash -c "$cmd | grep versionName | sed -e 's/    versionName=//'"
+    get_device_version
+    echo ""
+    exit 0
+fi
+
