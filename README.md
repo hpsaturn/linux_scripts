@@ -64,6 +64,7 @@ This document provides an overview of various scripts available in this reposito
 | **pmload**            | Utility to list and load apks in the current directory                     |
 | **pmuninstall**       | Uninstalls a package by pattern.                                           |
 | **pmmediack**         | Force media scan trigger (for instance, when you push videos via adb)      |
+| **pmaudioinfo**       | Retreive audio device info for bug reports                                 |
 
 ![pmvideo android tool demo](images/pmvideo.gif)
 
