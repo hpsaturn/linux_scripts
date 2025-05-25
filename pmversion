@@ -47,6 +47,7 @@ else
     echo ""
     echo "$pkg version:"
     bash -c "$cmd | grep versionName | sed -e 's/    versionName=//'"
+    bash -c "$cmd | grep versionCode | dos2unix | awk '{print $1}' | sed -e 's/versionCode=//' | awk '{print $1}'"
     get_device_version
     echo ""
     exit 0

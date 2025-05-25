@@ -8,4 +8,6 @@ else
 fi
 
 ESCAPED_TEXT=`echo "$TEXT" | sed "s/\s/\%s/g"`
+echo "sending.."
+echo "$ESCAPED_TEXT"
 adb shell input text "$ESCAPED_TEXT"
