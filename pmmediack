@@ -9,20 +9,53 @@
 # when you push some video or photos via adb
 
 # force trigger (new devices)
+
+set -o errexit
+
 update_media () {
-  adb shell content call --method scan_volume --uri content://media --arg external_primary &> /dev/null
+  msg="update_media"
+  adb shell content call --method scan_volume --uri content://media --arg external_primary &> /dev/null &
+  pidcache=$!
 }
 
 # force trigger on specific path (deprecated)
 update_media_path () {
-  adb shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://$1 &> /dev/null
+  msg="update_media_path: $1"
+  adb shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://$1 &> /dev/null &
+  pidcache=$!
 }
 
-if [[ "$1" != "" ]]
+whilep () {
+    # If this script is killed, kill the `cp'.
+    trap "kill $1 2> /dev/null" EXIT
+
+    while kill -0 $1 2> /dev/null; do
+        getchar
+        printf "%s %s\r" "$msg" "$statuschar"
+        sleep 0.03
+    done
+    printf "                                                                                 \r"
+}
+
+StatusChar="/
+|
+\
+-"
+
+getchar(){
+    denomination=($StatusChar)
+    num_denominations=${#denomination[*]}
+    statuschar="${denomination[$((RANDOM%num_denominations))]}"
+}
+
+if [[ "$1" == "" ]]
 then
   update_media
+  whilep $pidcache
 else
   update_media_path $1
+  whilep $pidcache
   update_media   
+  whilep $pidcache
 fi
 
