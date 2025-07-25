@@ -5,4 +5,4 @@ if [ "$1" = "" ]; then
   exit 1
 fi
 
-kermit -l $1 -C "set modem type direct, set prefixing all, set speed 9600, set carrier-watch off, set flow none, set parity none, set block 3
+kermit -l $1 -C "set modem type direct, set prefixing all, set speed 9600, set carrier-watch off, set flow none, set parity none, set block 3"
