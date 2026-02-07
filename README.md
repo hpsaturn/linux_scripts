@@ -19,6 +19,7 @@ This document provides an overview of various scripts available in this reposito
 | **build_pkg**     | Utility for building Debian `.deb` packages using `checkinstall`.           |
 | **cpfromfile**    | Utility for copying files from a specified list.                            |
 | **gitrev**        | Returns revision and version names of the current repository.               |
+| **get-public-ip** | Returns the current public IP.                                              |
 | **ikvpn**         | Utility for manual operations over an OpenVPN connection.                   |
 | **jsonlint**      | Validates a JSON file locally.                                              |
 | **x11sockets**    | Lists the current X11 sockets used by each application.                     |
