@@ -27,6 +27,7 @@ This document provides an overview of various scripts available in this reposito
 | **verifydebfiles**| Checks signature hashes of Debian packages.                                 |
 | **osdetect**      | Returns the platform architecture and OS name.                              |
 | **apt-check**     | Check pending apt updates via email mutt client. (cron utility)             |
+| **simul_mouse **  | Mouse move simulation                                                       |
 
 | |
 |:-------------------------------------------------------------------:|
