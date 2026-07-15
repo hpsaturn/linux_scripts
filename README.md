@@ -68,6 +68,7 @@ This document provides an overview of various scripts available in this reposito
 | **pmuninstall**       | Uninstalls a package by pattern.                                            |
 | **pmmediack**         | Force media scan trigger (for instance, when you push videos via adb)       |
 | **pmaudioinfo**       | Retreive audio device info for bug reports                                  |
+| **check_elf_align**   | Utility for check ELF 32 alignment on apk or .so libraries                  |
 
 ![pmvideo android tool demo](images/pmvideo.gif)
 
