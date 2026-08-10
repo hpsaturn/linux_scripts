@@ -1,0 +1,2 @@
+#/usr/bin/bash
+find . -type d -name ".pio" -print -exec rm -fr {}/build {}/libdeps \;

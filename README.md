@@ -28,6 +28,7 @@ This document provides an overview of various scripts available in this reposito
 | **osdetect**      | Returns the platform architecture and OS name.                              |
 | **apt-check**     | Check pending apt updates via email mutt client. (cron utility)             |
 | **simul_mouse **  | Mouse move simulation                                                       |
+| **pioclean**      | Clean PlatformIO hidden working directories. (Without confirmation)         |
 
 | |
 |:-------------------------------------------------------------------:|
