@@ -39,7 +39,7 @@ terminator --geometry 1092x310+751+702 -p tinyfont --title "Log1" &
 sleep 0.2
 
 # sysmemwatch
-terminator --geometry 450x100+1385+1015 -p tinyfont --title "sysmemwatch" -x sysmemwatch -l -t 15 firefox code Telegram java chrome shotcut obs &
+terminator --geometry 450x65+1385+1015 -p tinyfont --title "sysmemwatch" -x sysmemwatch -l -t 15 firefox code Telegram java chrome shotcut obs &
 
 # screenpad (glances)
 #terminator --geometry 2160x1083+0+1081 -p FullScreen --title "screnpad" &
