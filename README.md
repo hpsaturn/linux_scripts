@@ -11,6 +11,7 @@ This document provides an overview of various scripts available in this reposito
 | **usbreboot**     | Restarts corrupted USB interfaces of the operating system.                  |
 | **snapdetector**  | Identifies possible Snap packages included in the APT repository.           |
 | **psaux**         | Returns only the main command and PID; also searches for similar processes. |
+| **pskill**        | kill -9 to the PID process result of pattern match.                         |
 | **testdisk**      | Basic hard drive or SSD benchmark.                                          |
 | **ddtest**        | Benchmarking tool for `dd`.                                                 |
 | **scanhosts**     | Scans devices in the local network or network segment.                      |

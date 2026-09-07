@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cmd=$1
+kill -9 $(ps aux | grep -v sysmemwatch | grep -v 'grep --color' | grep "$cmd" | awk '{print $2}')
