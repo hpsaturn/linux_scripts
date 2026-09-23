@@ -67,6 +67,7 @@ This document provides an overview of various scripts available in this reposito
 | **pmstop**            | Stops a package by pattern.                                                 |
 | **pmsignature**       | Retrieves the package signature.                                            |
 | **pmload**            | Utility to list and load apks in the current directory                      |
+| **pmsize**            | Utility to calculate the size of package. Find it by pattern                |
 | **pmuninstall**       | Uninstalls a package by pattern.                                            |
 | **pmmediack**         | Force media scan trigger (for instance, when you push videos via adb)       |
 | **pmaudioinfo**       | Retreive audio device info for bug reports                                  |
@@ -95,6 +96,8 @@ This document provides an overview of various scripts available in this reposito
 | **pidrun/pidstop**    | Sends CONT and STOP signals to manage an application.                     |
 | **kermit48**          | Utility that launch Kermit preconfigured for Hp48g calculators.           |
 | **firefox_cookies**   | Utility that export your Firefox session cookies.                         |
+| **run-matrix-unique** | Run matrix shell animation unique (skip if other process is running)      |
+
 
 ![Countdown Demo](images/countdown.gif)
 

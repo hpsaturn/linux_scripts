@@ -1,0 +1,20 @@
+#!/bin/bash
+
+execute_process () {
+  printf "checking\t%.7s" "$1"
+  pid=`pgrep -f $1`
+  prm=`ps aux | grep -e "$1 $2"`
+  if [ "$pid" == "" ] ; then
+    printf "\t\trestarting\n"
+    eval "$1 $2"
+  elif [ "$prm" == "" ] ; then 
+    printf "\t\tnot same\n"
+    printf  "executing\t%.7s\n" "$1"
+    eval "$1 $2" &> /dev/null &
+  else
+    printf "\t\tok\n"
+  fi
+  sleep 0.3
+}
+
+execute_process cmatrix "-b"
