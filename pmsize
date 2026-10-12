@@ -18,7 +18,7 @@ F_CACHE_SIZE="$USRDIR"/app_cache_sizes.txt
 
 load_pkgs_data () {
   # ADVISE: do a check whether ADB is working fine or not
-  adb shell dumpsys diskstats > "$F_DISK_STATS"
+  adb shell dumpsys diskstats -f1 > "$F_DISK_STATS"
 
   # Separating data into relevant named files
   sed -n '/Package Names:/p' "$F_DISK_STATS" | sed -e 's/,/\n/g' -e 's/"//g' -e 's/.*\[//g' -e 's/\].*//g' > "$F_PKG_NAMES"
