@@ -9,6 +9,8 @@
 # 20230111 first version (extended from pmpull command)
 ####################################################################
 
+APKSIGNER=/opt/android-sdk-linux/build-tools/36.1.0/apksigner
+
 if [ "$1" = "" ]; then
   echo ""
   echo "usage: pmpull pattern"
@@ -44,8 +46,10 @@ else
     echo ""
     echo "Signature for $pkg:"
     echo ""
-    keytool -printcert -jarfile "$pkg.apk"
-    rm "$pkg.apk"
+    #keytool -printcert -jarfile "$pkg.apk"
+    #jarsigner -verbose -verify "$pkg.apk"
+    $APKSIGNER verify --print-certs --verbose "$pkg.apk"
+    #rm "$pkg.apk"
     exit 0
 fi
 
